@@ -7,24 +7,34 @@ use Illuminate\Database\Eloquent\Collection as DatabaseCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Query\Builder;
 
 /**
  * Class Volunteer
  * @package App\Models
+ * @mixin Builder
  */
 class Volunteer extends Model
 {
     use HasFactory;
 
-		protected $fillable = ["role"];
-		protected $with = ["user"];
+		protected $fillable = ["role_id"];
+		protected $with = ["user", "role"];
 
-		/**
+		/** REL
 		 * @return BelongsTo
 		 */
 		public function user(): BelongsTo
 		{
 				return $this->belongsTo(User::class);
+		}
+
+		/** REL
+		 * @return BelongsTo
+		 */
+		public function role(): BelongsTo
+		{
+				return $this->belongsTo(Role::class);
 		}
 
 		/**
@@ -36,18 +46,10 @@ class Volunteer extends Model
 		}
 
 		/**
-		 * @return string
+		 * @return DatabaseCollection
 		 */
-		public function getRole(): string
+		public function getRole(): DatabaseCollection
 		{
-				return $this->role;
-		}
-
-		/**
-		 * @param string $role
-		 */
-		public function setRole(string $role)
-		{
-				$this->role = $role;
+				return $this->role()->get();
 		}
 }

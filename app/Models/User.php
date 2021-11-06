@@ -5,6 +5,8 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -12,6 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * Class User
  * @package App\Models
+ * @mixin Builder
  */
 class User extends Authenticatable
 {
@@ -39,4 +42,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+		/**
+		 * @return BelongsToMany
+		 */
+		public function appointments(): BelongsToMany
+		{
+				return $this->belongsToMany(Appointment::class);
+		}
 }

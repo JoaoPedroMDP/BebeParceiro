@@ -11,9 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class VolunteerFactory extends Factory
 {
-		const ROLES = [
-				'admin', 'atendente', 'beneficiada', 'doula', 'entregador', 'validador', 'agendador'
-		];
+
 
     /**
      * Define the model's default state.
@@ -23,7 +21,7 @@ class VolunteerFactory extends Factory
     public function definition(): array
 		{
         return [
-            "role" => $this->faker->randomElement(self::ROLES)
+            //
         ];
     }
 }

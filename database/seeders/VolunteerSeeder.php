@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Volunteer;
 use Illuminate\Database\Eloquent\Collection as DatabaseCollection;
@@ -21,20 +22,25 @@ class VolunteerSeeder extends Seeder
      */
     public function run()
     {
-				$users = User::factory()->count(3)->create();
-				$volunteers = Volunteer::factory()->count(3)->make();
+				if(Volunteer::count() == 0){
+						$users = User::all()->slice(0,6);
+						$roles = Role::all();
+						$volunteers = Volunteer::factory()->count(6)->make();
 
-				$this->attachVolunteersToUsers($volunteers, $users);
+						$this->attachVolunteersToUsersAndRoles($volunteers, $users, $roles);
+				}
     }
 
 		/**
 		 * @param DatabaseCollection $volunteers
 		 * @param DatabaseCollection $users
+		 * @param DatabaseCollection $roles
 		 */
-		private function attachVolunteersToUsers(DatabaseCollection $volunteers, DatabaseCollection $users)
+		private function attachVolunteersToUsersAndRoles(DatabaseCollection $volunteers, DatabaseCollection $users, DatabaseCollection $roles)
 		{
 				for( $i = 0; $i < count($volunteers); $i++){
 						$volunteers[$i]->user()->associate($users[$i]);
+						$volunteers[$i]->role()->associate($roles[$i]);
 						$volunteers[$i]->save();
 				}
 		}

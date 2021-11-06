@@ -1,10 +1,14 @@
 <?php
+declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVolunteersTable extends Migration
+/**
+ * Class CreateRolesTable
+ */
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +17,10 @@ class CreateVolunteersTable extends Migration
      */
     public function up()
     {
-        Schema::create('volunteers', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-						$table->string("role");
-						$table->foreignId("user_id")->constrained();
+						$table->string("name");
+						$table->json("permissions");
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ class CreateVolunteersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('volunteers');
+        Schema::dropIfExists('roles');
     }
 }

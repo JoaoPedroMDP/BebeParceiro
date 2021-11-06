@@ -28,7 +28,7 @@ class CreatePregnanciesTable extends Migration
 						$table->boolean("risk_pregnancy");
 						$table->string("birth_forecast");
 						$table->string("weight_forecast");
-						$table->foreignId("benefited_id")->constrained();
+						$table->foreignId("benefited_id")->constrained('beneficiaries');
             $table->timestamps();
         });
     }

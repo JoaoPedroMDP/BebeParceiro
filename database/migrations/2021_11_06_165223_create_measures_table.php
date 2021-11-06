@@ -6,9 +6,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateUsersTable
+ * Class CreateMeasuresTable
  */
-class CreateUsersTable extends Migration
+class CreateMeasuresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,14 +17,12 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('measures', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('surname');
-            $table->string('username')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+						$table->string("name");
+						$table->foreignId("benefited_id")->constrained();
+						$table->string("enabled");
+						$table->timestamps();
         });
     }
 
@@ -35,6 +33,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('measures');
     }
 }

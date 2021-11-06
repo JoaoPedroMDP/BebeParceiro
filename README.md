@@ -7,4 +7,4 @@ Outro problema que surge é o de **proteger os dados dos beneficiados**. Várias
 
 Tendo em vista toda a problemática, está sendo desenvolvido um sistema web para o projeto. As tecnologias usadas são **Laravel 8** e **Vue.js 3**.
 
-Para o Back-End, pretende-se usar os princípios de **Código limpo** (o dsenvolvedor ainda esetá em processo de aprendizado) e *Domain Driven Development* para que futuras manutenções e adições de funcionalidades - caso venham a ser necessárias - não sejam penosas.
+Para o Back-End, pretende-se usar os princípios de **Código limpo** (o desenvolvedor ainda está em processo de aprendizado) e *Domain Driven Development* para que futuras manutenções e adições de funcionalidades - caso venham a ser necessárias - não sejam penosas.

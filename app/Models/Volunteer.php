@@ -16,10 +16,9 @@ use Illuminate\Database\Query\Builder;
  */
 class Volunteer extends Model
 {
-    use HasFactory;
+		use HasFactory;
 
-		protected $fillable = ["role_id"];
-		protected $with = ["user", "role"];
+		protected $with = ["user"];
 
 		/** REL
 		 * @return BelongsTo
@@ -29,27 +28,11 @@ class Volunteer extends Model
 				return $this->belongsTo(User::class);
 		}
 
-		/** REL
-		 * @return BelongsTo
-		 */
-		public function role(): BelongsTo
-		{
-				return $this->belongsTo(Role::class);
-		}
-
 		/**
 		 * @return DatabaseCollection
 		 */
 		public function getUser(): DatabaseCollection
 		{
 				return $this->user()->get();
-		}
-
-		/**
-		 * @return DatabaseCollection
-		 */
-		public function getRole(): DatabaseCollection
-		{
-				return $this->role()->get();
 		}
 }

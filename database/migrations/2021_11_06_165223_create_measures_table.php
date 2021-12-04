@@ -20,7 +20,6 @@ class CreateMeasuresTable extends Migration
         Schema::create('measures', function (Blueprint $table) {
             $table->id();
 						$table->string("name");
-						$table->foreignId("benefited_id")->constrained("beneficiaries");
 						$table->string("enabled");
 						$table->timestamps();
         });

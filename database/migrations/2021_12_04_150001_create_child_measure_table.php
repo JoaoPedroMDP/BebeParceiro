@@ -6,9 +6,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateRolesTable
+ * Class CreateChildMeasureTable
  */
-class CreateRolesTable extends Migration
+class CreateChildMeasureTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,10 +17,10 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('child_measure', function (Blueprint $table) {
             $table->id();
-						$table->string("name");
-						$table->json("permissions");
+						$table->foreignId("measure_id")->constrained("measures");
+						$table->foreignId("child_id")->constrained("children");
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('child_measure');
     }
 }

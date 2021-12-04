@@ -19,7 +19,6 @@ class CreateVolunteersTable extends Migration
     {
         Schema::create('volunteers', function (Blueprint $table) {
             $table->id();
-						$table->foreignId("role_id")->constrained();
 						$table->foreignId("user_id")->constrained();
             $table->timestamps();
         });

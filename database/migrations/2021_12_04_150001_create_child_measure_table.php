@@ -6,9 +6,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateAddressesTable
+ * Class CreateChildMeasureTable
  */
-class CreateAddressesTable extends Migration
+class CreateChildMeasureTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,15 +17,10 @@ class CreateAddressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('child_measure', function (Blueprint $table) {
             $table->id();
-						$table->string("city");
-						$table->string("street");
-						$table->string("number");
-						$table->string("complement");
-						$table->string("cep");
-						$table->string("reference");
-						$table->foreignId("user_id")->constrained("users");
+						$table->foreignId("measure_id")->constrained("measures");
+						$table->foreignId("child_id")->constrained("children");
             $table->timestamps();
         });
     }
@@ -37,6 +32,6 @@ class CreateAddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('child_measure');
     }
 }

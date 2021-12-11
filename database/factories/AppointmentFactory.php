@@ -4,13 +4,12 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
-
+use Carbon\Carbon;
 /**
- * Class UserFactory
+ * Class AppointmentFactory
  * @package Database\Factories
  */
-class UserFactory extends Factory
+class AppointmentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,11 +18,11 @@ class UserFactory extends Factory
      */
     public function definition(): array
 		{
+				$datetime = Carbon::now();
+				$datetime->addWeeks(rand(1, 10))->addHours(rand(1, 24));
         return [
-            'name' => $this->faker->name(),
-            'surname' => $this->faker->name(),
-            'username' => $this->faker->unique()->userName(),
-            'password' => bcrypt("senha") // password
+            'name' => $this->faker->hexColor(),
+						'datetime' => $datetime->toDateTime()
         ];
     }
 }

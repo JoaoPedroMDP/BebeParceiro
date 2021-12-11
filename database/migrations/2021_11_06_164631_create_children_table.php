@@ -26,6 +26,7 @@ class CreateChildrenTable extends Migration
 								]
 						);
 						$table->string("birth");
+						$table->foreignId("beneficiary_id")->constrained("beneficiaries");
             $table->timestamps();
         });
     }

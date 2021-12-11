@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
- * Class UserFactory
+ * Class VolunteerFactory
  * @package Database\Factories
  */
-class UserFactory extends Factory
+class VolunteerFactory extends Factory
 {
+
+
     /**
      * Define the model's default state.
      *
@@ -20,10 +21,7 @@ class UserFactory extends Factory
     public function definition(): array
 		{
         return [
-            'name' => $this->faker->name(),
-            'surname' => $this->faker->name(),
-            'username' => $this->faker->unique()->userName(),
-            'password' => bcrypt("senha") // password
+            //
         ];
     }
 }

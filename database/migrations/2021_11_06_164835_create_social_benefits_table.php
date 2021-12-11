@@ -21,7 +21,6 @@ class CreateSocialBenefitsTable extends Migration
             $table->id();
 						$table->string("name");
 						$table->boolean("enabled");
-						$table->foreignId("benefited_id")->constrained();
             $table->timestamps();
         });
     }

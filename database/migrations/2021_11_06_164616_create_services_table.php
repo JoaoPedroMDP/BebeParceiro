@@ -22,6 +22,7 @@ class CreateServicesTable extends Migration
 						$table->string("name");
 						$table->string("description");
 						$table->boolean("enabled");
+						$table->foreignId("image_id")->constrained("images");
             $table->timestamps();
         });
     }

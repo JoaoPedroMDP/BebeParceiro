@@ -19,7 +19,7 @@ class CreateBenefitedSocialBenefitTable extends Migration
     {
         Schema::create('benefited_social_benefit', function (Blueprint $table) {
             $table->id();
-						$table->foreignId("benefited_id")->constrained();
+						$table->foreignId("benefited_id")->constrained("beneficiaries");
 						$table->foreignId("social_benefit_id")->constrained();
             $table->timestamps();
         });

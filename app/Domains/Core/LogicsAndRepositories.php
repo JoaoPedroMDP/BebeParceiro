@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Domains\Core;
 
-use App\Domains\Images\Logic\ImageLogic;
+use App\Domains\Image\Logic\ImageLogic;
+use App\Domains\Image\Repository\ImageRepository;
 use App\Domains\Service\Logic\ServiceLogic;
-use App\Domains\Service\Repositories\ServiceRepository;
+use App\Domains\Service\Repository\ServiceRepository;
 
 /**
  * Class LogicsAndRepositories
@@ -29,14 +30,19 @@ class LogicsAndRepositories
 	public $imageLogic;
 
 	/**
+	 * @var ImageRepository
+	 */
+	public $imageRepository;
+
+	/**
 	 * @param string $logicName
-	 * @return ServiceLogic | \App\Domains\Images\Logic\ImageLogic
+	 * @return ServiceLogic | ImageLogic
 	 */
 	public function logic(string $logicName)
 	{
 		$varName = $logicName . "Logic";
-		if( $this->$varName == null){
-				$className = ucwords($logicName) . "Logic";
+		if($this->$varName == null){
+				$className = "App\\Domains\\" . ucwords($logicName) . "\\Logic\\" . ucwords($logicName) . "Logic"; // ucwords capitaliza a string que passo
 				$this->$varName = new $className;
 		}
 
@@ -45,13 +51,13 @@ class LogicsAndRepositories
 
 	/**
 	 * @param string $repositoryName
-	 * @return ServiceRepository
+	 * @return ServiceRepository | ImageRepository
 	 */
-	public function repository(string $repositoryName): ServiceRepository
+	public function repository(string $repositoryName)
 	{
 		$varName = $repositoryName . "Repository";
-		if( $this->$varName == null){
-				$className = "App\\Domains\\" . ucwords($repositoryName) . "\\Repositories\\" . ucwords($repositoryName) . "Repository";
+		if($this->$varName == null){
+				$className = "App\\Domains\\" . ucwords($repositoryName) . "\\Repository\\" . ucwords($repositoryName) . "Repository";
 				$this->$varName = new $className;
 		}
 

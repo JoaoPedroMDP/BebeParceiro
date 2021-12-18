@@ -7,38 +7,30 @@ use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
+use Tests\Tools;
 
 /**
  * Class ServiceTest
  * @package Tests\Feature
  */
-class ServiceTest extends TestCase
+class ServiceTest extends Tools
 {
 	/**
-	 * Visit the given URI with a POST request.
-	 * @param string $uri
-	 * @param array $data
-	 * @param array $headers
-	 * @return TestResponse
+	 * @return int
 	 */
-	public function post($uri, array $data = [], array $headers = []): TestResponse{
-		$response = parent::post($uri, $data);
-		$this->refreshApplication();
-		return $response;
-	}
-
-	/**
-	 * Visit the given URI with a GET request.
-	 *
-	 * @param  string  $uri
-	 * @param  array  $headers
-	 * @return TestResponse
-	 */
-	public function get($uri, array $headers = []): TestResponse
+	public function getValidServiceId(): int
 	{
-		$response = parent::get($uri, $headers);
-		$this->refreshApplication();
-		return $response;
+		try {
+			return random_int(
+				0,
+				count(
+					$this->get('/service')->json()
+				)
+			);
+		} catch(Exception $e) {
+			error_log($e->getMessage() . "\n Usando 0 como id de serviço");
+			return 0;
+		}
 	}
 
 	/**
@@ -67,8 +59,7 @@ class ServiceTest extends TestCase
 			]);
 
 		$response->assertOk();
-		$amountOfServicesAfter = count($this->get('/service')->json());
-		$this->assertEquals($amountOfServicesBefore+1, $amountOfServicesAfter);
+		$this->checkIfServiceNumberIncreased($amountOfServicesBefore);
 	}
 
 	/**
@@ -77,12 +68,7 @@ class ServiceTest extends TestCase
 	 */
 	public function test_update_service()
 	{
-		$serviceToUpdate = random_int(
-			0,
-			count(
-				$this->get('/service')->json()
-			)
-		);
+		$serviceToUpdate = $this->getValidServiceId();
 
 		$response = $this->post("/service/$serviceToUpdate",
 			[
@@ -98,5 +84,19 @@ class ServiceTest extends TestCase
 				"image" => new UploadedFile(resource_path('testFiles/image2.jpg'), 'storeService.jpg', null, null, true),
 			]);
 		$response->assertOk();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function test_delete_service()
+	{
+		$amountOfServicesBefore = count($this->get('/service')->json());
+
+		$serviceToDelete = $this->getValidServiceId();
+		$response = $this->delete("/service/$serviceToDelete");
+		$response->assertOk();
+
+		$this->checkIfServiceNumberDecreased($amountOfServicesBefore);
 	}
 }

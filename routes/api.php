@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Domains\Service\Actions\DeleteServiceAction;
 use App\Domains\Service\Actions\IndexServicesAction;
 use App\Domains\Service\Actions\StoreServiceAction;
 use App\Domains\Service\Actions\UpdateServiceAction;
@@ -21,3 +22,4 @@ use Illuminate\Support\Facades\Route;
 Route::get("service", [IndexServicesAction::class, "handle"]);
 Route::post("service", [StoreServiceAction::class, "handle"]);
 Route::post("service/{id}", [UpdateServiceAction::class, "handle"]);
+Route::delete("service/{id}", [DeleteServiceAction::class, "handle"]);

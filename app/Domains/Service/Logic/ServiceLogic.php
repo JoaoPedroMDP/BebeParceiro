@@ -7,6 +7,7 @@ use App\Domains\Core\LogicsAndRepositories;
 use App\Domains\Image\CQRS\StoreImageCommand;
 use App\Domains\Service\CQRS\StoreServiceCommand;
 use App\Domains\Service\CQRS\UpdateServiceCommand;
+use App\Domains\Service\Exceptions\DeletionFailed;
 use App\Domains\Service\Exceptions\ServiceNotFound;
 use App\Models\Service;
 use Illuminate\Database\Eloquent\Collection as DatabaseCollection;
@@ -40,7 +41,7 @@ class ServiceLogic extends LogicsAndRepositories
 			"fileName" => $command->name
 		];
 
-		$image = $this->logic("image")->storeImage(StoreImageCommand::fromArray($storeImageData));
+		$image = $this->imageLogic()->storeImage(StoreImageCommand::fromArray($storeImageData));
 		$service = $this->repository('service')->storeService($command->toArray());
 		$service->image()->save($image);
 		$service->save();
@@ -57,7 +58,7 @@ class ServiceLogic extends LogicsAndRepositories
 	{
 		$service = $this->getFirstServiceWhere("id", $command->id);
 
-		$this->repository("service")->updateService($service, $command->toArray());
+		$this->serviceRepository()->updateService($service, $command->toArray());
 
 		if(!is_null($command->image))
 		{
@@ -76,7 +77,7 @@ class ServiceLogic extends LogicsAndRepositories
 	 */
 	private function getFirstServiceWhere(string $field, $value): Service
 	{
-		$service = $this->repository("service")->getFirstServiceWhere($field, $value);
+		$service = $this->serviceRepository()->getFirstServiceWhere($field, $value);
 
 		if( is_null($service) ){
 			throw new ServiceNotFound();
@@ -93,9 +94,9 @@ class ServiceLogic extends LogicsAndRepositories
 	private function updateServiceImage(Service $service, UploadedFile $image)
 	{
 		$oldImage = $service->getImage();
-		$this->repository("image")->deleteImage($oldImage);
+		$this->imageRepository()->deleteImage($oldImage);
 
-		$newImage = $this->logic("image")->storeImage(
+		$newImage = $this->imageLogic()->storeImage(
 			StoreImageCommand::fromArray([
 				"image" => $image,
 				"description" => $service->getDescription(),
@@ -104,5 +105,20 @@ class ServiceLogic extends LogicsAndRepositories
 			])
 		);
 		$service->image()->save($newImage);
+	}
+
+	/**
+	 * @param int $id
+	 * @return void
+	 * @throws ServiceNotFound
+	 * @throws DeletionFailed
+	 */
+	public function deleteService(int $id)
+	{
+		$service = $this->serviceLogic()->getFirstServiceWhere("id", $id);
+		$this->imageLogic()->deleteImage($service->getImage());
+		if(!$service->delete()){
+			throw new DeletionFailed();
+		}
 	}
 }

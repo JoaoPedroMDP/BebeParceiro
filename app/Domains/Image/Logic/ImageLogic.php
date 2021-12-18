@@ -22,7 +22,7 @@ class ImageLogic extends LogicsAndRepositories
 	{
 		$command->path = $command->image->storeAs($command->path, $this->generateFileName($command->image, $command->toArray()));
 
-		return $this->repository("image")->storeImage($command->toArray());
+		return $this->imageRepository()->storeImage($command->toArray());
 	}
 
 	/**
@@ -35,5 +35,16 @@ class ImageLogic extends LogicsAndRepositories
 		$fileExtension = '.' . $file->extension();
 
 		return str_replace(' ', '_', $data['fileName']) . $fileExtension;
+	}
+
+	/**
+	 * @param Image|null $image
+	 * @return void
+	 */
+	public function deleteImage(?Image $image)
+	{
+		if(!is_null($image)){
+			$this->imageRepository()->deleteImage($image);
+		}
 	}
 }

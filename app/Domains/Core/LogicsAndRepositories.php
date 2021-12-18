@@ -25,6 +25,30 @@ class LogicsAndRepositories
 	public $serviceRepository;
 
 	/**
+	 * @return ServiceLogic
+	 */
+	public function serviceLogic(): ServiceLogic
+	{
+		if($this->serviceLogic == null){
+			$this->serviceLogic = new ServiceLogic();
+		}
+
+		return $this->serviceLogic;
+	}
+
+	/**
+	 * @return ServiceRepository
+	 */
+	public function serviceRepository(): ServiceRepository
+	{
+		if($this->serviceRepository == null){
+			$this->serviceRepository = new ServiceRepository();
+		}
+
+		return $this->serviceRepository;
+	}
+
+	/**
 	 * @var ImageLogic
 	 */
 	public $imageLogic;
@@ -33,6 +57,31 @@ class LogicsAndRepositories
 	 * @var ImageRepository
 	 */
 	public $imageRepository;
+
+	/**
+	 * @return ImageLogic
+	 */
+	public function imageLogic(): ImageLogic
+	{
+		if($this->imageLogic == null){
+			$this->imageLogic = new ImageLogic();
+		}
+
+		return $this->imageLogic;
+	}
+
+	/**
+	 * @return ImageRepository
+	 */
+	public function imageRepository(): ImageRepository
+	{
+		if($this->imageRepository == null){
+			$this->imageRepository = new ImageRepository();
+		}
+
+		return $this->imageRepository;
+	}
+
 
 	/**
 	 * @param string $logicName

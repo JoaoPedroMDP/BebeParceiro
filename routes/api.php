@@ -1,6 +1,10 @@
 <?php
+declare(strict_types=1);
 
-use Illuminate\Http\Request;
+use App\Domains\Service\Actions\DeleteServiceAction;
+use App\Domains\Service\Actions\IndexServicesAction;
+use App\Domains\Service\Actions\StoreServiceAction;
+use App\Domains\Service\Actions\UpdateServiceAction;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// SERVICE
+Route::get("service", [IndexServicesAction::class, "handle"]);
+Route::post("service", [StoreServiceAction::class, "handle"]);
+Route::post("service/{id}", [UpdateServiceAction::class, "handle"]);
+Route::delete("service/{id}", [DeleteServiceAction::class, "handle"]);

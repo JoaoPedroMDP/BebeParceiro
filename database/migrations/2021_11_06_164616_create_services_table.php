@@ -19,10 +19,9 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-						$table->string("name");
-						$table->string("description");
-						$table->boolean("enabled");
-						$table->foreignId("image_id")->constrained("images");
+			$table->string("name");
+			$table->string("description");
+			$table->boolean("enabled");
             $table->timestamps();
         });
     }

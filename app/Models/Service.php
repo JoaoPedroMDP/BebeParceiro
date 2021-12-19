@@ -1,11 +1,85 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Domains\Core\HidesTimestamps;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Query\Builder;
 
-class Service extends Model
+/**
+ * Class Service
+ * @package App\Models
+ * @mixin Builder
+ */
+class Service extends HidesTimestamps
 {
     use HasFactory;
+
+	protected $fillable = [
+		'name', 'description', 'enabled'
+	];
+
+	protected $with = [
+		'image'
+	];
+
+	/**
+	 * @return string
+	 */
+	public function getName(): string {
+		return $this->name;
+	}
+
+	/**
+	 * @param string $name
+	 */
+	public function setName(string $name){
+		$this->name = $name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDescription(): string {
+		return $this->description;
+	}
+
+	/**
+	 * @param string $description
+	 */
+	public function setDescription(string $description){
+		$this->description = $description;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isEnabled(): bool {
+		return $this->enabled;
+	}
+
+	/**
+	 * @param bool $enabled
+	 */
+	public function setEnabled(bool $enabled){
+		$this->enabled = $enabled;
+	}
+
+	/**
+	 * @return MorphOne
+	 */
+	public function image(): MorphOne
+	{
+		return $this->morphOne(Image::class, 'imageable');
+	}
+
+	/**
+	 * @return Image|MorphOne|object|null
+	 */
+	public function getImage()
+	{
+		return $this->image()->first();
+	}
 }

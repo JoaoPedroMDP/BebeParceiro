@@ -21,6 +21,7 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->string("name");
             $table->string("datetime");
+			$table->foreignId("service_id")->constrained();
             $table->timestamps();
         });
     }

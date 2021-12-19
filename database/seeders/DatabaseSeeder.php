@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 	    (new PermissionSeeder())->run();
 	    (new RoleSeeder())->run();
 	    (new UserSeeder())->run();
+	    (new ServiceSeeder())->run();
         (new VolunteerSeeder())->run();
 		(new AppointmentSeeder())->run();
     }

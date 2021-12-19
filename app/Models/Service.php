@@ -5,6 +5,7 @@ namespace App\Models;
 
 use App\Domains\Core\HidesTimestamps;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Query\Builder;
 
@@ -24,6 +25,31 @@ class Service extends HidesTimestamps
 	protected $with = [
 		'image'
 	];
+
+	/**
+	 * @return MorphOne
+	 */
+	public function image(): MorphOne
+	{
+		return $this->morphOne(Image::class, 'imageable');
+	}
+
+	/**
+	 * @return Image|MorphOne|object|null
+	 */
+	public function getImage()
+	{
+		return $this->image()->first();
+	}
+
+	/**
+	 * Não criei o get desse lado relacionamento pois não seria usado para nada
+	 * @return HasMany
+	 */
+	public function appointments(): HasMany
+	{
+		return $this->hasMany(Appointment::class);
+	}
 
 	/**
 	 * @return string
@@ -65,21 +91,5 @@ class Service extends HidesTimestamps
 	 */
 	public function setEnabled(bool $enabled){
 		$this->enabled = $enabled;
-	}
-
-	/**
-	 * @return MorphOne
-	 */
-	public function image(): MorphOne
-	{
-		return $this->morphOne(Image::class, 'imageable');
-	}
-
-	/**
-	 * @return Image|MorphOne|object|null
-	 */
-	public function getImage()
-	{
-		return $this->image()->first();
 	}
 }

@@ -43,9 +43,10 @@ class Tools extends TestCase
 	 *
 	 * @param string $uri
 	 * @param array $data
+	 * @param array $headers
 	 * @return TestResponse TestResponse
 	 */
-	public function delete($uri, array $data = []): TestResponse
+	public function delete($uri, array $data = [], array $headers = []): TestResponse
 	{
 		$response = parent::delete($uri, $data);
 		$this->refreshApplication();

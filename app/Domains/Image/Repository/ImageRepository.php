@@ -22,7 +22,7 @@ class ImageRepository extends LogicsAndRepositories
 	{
 		$newImage = new Image;
 		$newImage->setPath($data['path']);
-		$newImage->setDescription($data['path']);
+		$newImage->setDescription($data['description']);
 		return $newImage;
 	}
 

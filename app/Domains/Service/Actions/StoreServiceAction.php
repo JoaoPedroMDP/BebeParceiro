@@ -36,8 +36,7 @@ class StoreServiceAction
 				$this->serviceLogic->storeService(StoreServiceCommand::fromArray($request->all()))
 			);
 		}catch(Exception $exception){
-//			$response = response()->json("Não foi possível concluir a requisição", 500);
-			$response = response()->json($exception->getMessage(), 500);
+			$response = response()->json("Não foi possível concluir a requisição", 500);
 		}
 
 		return $response;

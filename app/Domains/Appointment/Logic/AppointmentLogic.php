@@ -5,6 +5,7 @@ namespace App\Domains\Appointment\Logic;
 
 use App\Domains\Core\LogicsAndRepositories;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class AppointmentLogic
@@ -14,9 +15,9 @@ class AppointmentLogic extends LogicsAndRepositories
 {
 	/**
 	 * @param User $user
-	 * @return void
+	 * @return Collection
 	 */
-	public function indexAppointments(User $user)
+	public function indexAppointments(User $user): Collection
 	{
 		return $this->appointmentRepository()->getAppointmentsFromUser($user);
 	}

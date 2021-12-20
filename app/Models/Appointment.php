@@ -19,6 +19,12 @@ class Appointment extends HidesTimestamps
 {
     use HasFactory;
 
+	public function __construct()
+	{
+		$fieldsToHide = ['pivot'];
+		parent::__construct($fieldsToHide);
+	}
+
 	protected $fillable = [ 'name', 'datetime' ];
 
 	protected $with = [ 'users' ];

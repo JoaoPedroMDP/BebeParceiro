@@ -14,6 +14,15 @@ class Image extends HidesTimestamps
 {
     use HasFactory;
 
+	public function __construct()
+	{
+		$fieldsToHide = [
+			"imageable_type", "imageable_id"
+		];
+
+		parent::__construct($fieldsToHide);
+	}
+
 	protected $fillable = [
 		'path'. 'description'
 	];

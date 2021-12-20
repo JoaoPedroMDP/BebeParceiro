@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Domains\Appointment\Actions;
 
 use App\Domains\Appointment\Logic\AppointmentLogic;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

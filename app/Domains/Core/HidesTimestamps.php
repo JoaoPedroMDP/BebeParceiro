@@ -12,9 +12,16 @@ use Illuminate\Database\Eloquent\Model;
 class HidesTimestamps extends Model
 {
 	/**
-	 * @var array
+	 * Create a new Eloquent model instance.
+	 *
+	 * @param array $toHide
 	 */
-	protected $hidden = [
-		"created_at", "updated_at"
-	];
+	public function __construct(array $toHide = [])
+	{
+		$this->hidden = array_merge(
+			$toHide, [
+			"created_at", "updated_at"
+		]);
+		parent::__construct();
+	}
 }

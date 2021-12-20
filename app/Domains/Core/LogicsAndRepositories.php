@@ -7,6 +7,8 @@ use App\Domains\Image\Logic\ImageLogic;
 use App\Domains\Image\Repository\ImageRepository;
 use App\Domains\Service\Logic\ServiceLogic;
 use App\Domains\Service\Repository\ServiceRepository;
+use App\Domains\User\Logic\UserLogic;
+use App\Domains\User\Repository\UserRepository;
 
 /**
  * Class LogicsAndRepositories
@@ -82,34 +84,37 @@ class LogicsAndRepositories
 		return $this->imageRepository;
 	}
 
+	/**
+	 * @var UserLogic
+	 */
+	public $userLogic;
 
 	/**
-	 * @param string $logicName
-	 * @return ServiceLogic | ImageLogic
+	 * @var UserRepository
 	 */
-	public function logic(string $logicName)
+	public $userRepository;
+
+	/**
+	 * @return UserLogic
+	 */
+	public function userLogic(): UserLogic
 	{
-		$varName = $logicName . "Logic";
-		if($this->$varName == null){
-				$className = "App\\Domains\\" . ucwords($logicName) . "\\Logic\\" . ucwords($logicName) . "Logic"; // ucwords capitaliza a string que passo
-				$this->$varName = new $className;
+		if($this->userLogic == null){
+			$this->userLogic = new UserLogic();
 		}
 
-		return $this->$varName;
+		return $this->userLogic;
 	}
 
 	/**
-	 * @param string $repositoryName
-	 * @return ServiceRepository | ImageRepository
+	 * @return UserRepository
 	 */
-	public function repository(string $repositoryName)
+	public function userRepository(): UserRepository
 	{
-		$varName = $repositoryName . "Repository";
-		if($this->$varName == null){
-				$className = "App\\Domains\\" . ucwords($repositoryName) . "\\Repository\\" . ucwords($repositoryName) . "Repository";
-				$this->$varName = new $className;
+		if($this->userRepository == null){
+			$this->userRepository = new UserRepository();
 		}
 
-		return $this->$varName;
+		return $this->userRepository;
 	}
 }

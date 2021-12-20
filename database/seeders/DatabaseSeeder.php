@@ -18,7 +18,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+	    (new PermissionSeeder())->run();
+	    (new RoleSeeder())->run();
+	    (new UserSeeder())->run();
         (new VolunteerSeeder())->run();
-				(new AppointmentSeeder())->run();
+		(new AppointmentSeeder())->run();
     }
 }

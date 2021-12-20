@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Domains\Core;
 
+use App\Domains\Appointment\Logic\AppointmentLogic;
+use App\Domains\Appointment\Repository\AppointmentRepository;
 use App\Domains\Image\Logic\ImageLogic;
 use App\Domains\Image\Repository\ImageRepository;
 use App\Domains\Service\Logic\ServiceLogic;
@@ -116,5 +118,39 @@ class LogicsAndRepositories
 		}
 
 		return $this->userRepository;
+	}
+
+	/**
+	 * @var AppointmentLogic
+	 */
+	public $appointmentLogic;
+
+	/**
+	 * @var AppointmentRepository
+	 */
+	public $appointmentRepository;
+
+	/**
+	 * @return AppointmentLogic
+	 */
+	public function appointmentLogic(): AppointmentLogic
+	{
+		if($this->appointmentLogic == null){
+			$this->appointmentLogic = new AppointmentLogic();
+		}
+
+		return $this->appointmentLogic;
+	}
+
+	/**
+	 * @return AppointmentRepository
+	 */
+	public function appointmentRepository(): AppointmentRepository
+	{
+		if($this->appointmentRepository == null){
+			$this->appointmentRepository = new AppointmentRepository();
+		}
+
+		return $this->appointmentRepository;
 	}
 }

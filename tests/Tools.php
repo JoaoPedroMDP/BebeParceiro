@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Models\User;
+use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Testing\TestResponse;
 
 /**
@@ -89,5 +92,42 @@ class Tools extends TestCase
 		}
 
 		$this->assertEquals($before + $number, $serviceNumberAfter);
+	}
+
+	/**
+	 * @param string $actorName
+	 * @return User
+	 * @throws Exception
+	 */
+	public function getActor(string $actorName): User
+	{
+		$actor = User::where("name", '=', $actorName)->first();
+		if(is_null($actor)){
+			throw new Exception("Impossible to retrieve $actorName");
+		}
+
+		return $actor;
+	}
+
+	/**
+	 * @param string $strToPrint
+	 * @return void
+	 */
+	public function printDebug(string $strToPrint){
+		error_log(">>>>>>>>".$strToPrint."<<<<<<<<");
+	}
+
+	/**
+	 * @param TestResponse $response
+	 * @return void
+	 * @throws Exception
+	 */
+	public function assertOk(TestResponse $response){
+		try{
+			$response->assertOk();
+		}catch(Exception $e){
+			error_log($response->json());
+			throw $e;
+		}
 	}
 }

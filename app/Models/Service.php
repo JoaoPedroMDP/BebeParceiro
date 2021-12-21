@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Domains\Core\HidesTimestamps;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,7 +14,7 @@ use Illuminate\Database\Query\Builder;
  * @package App\Models
  * @mixin Builder
  */
-class Service extends HidesTimestamps
+class Service extends Model
 {
     use HasFactory;
 

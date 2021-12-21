@@ -28,7 +28,7 @@ class Appointment extends Model
 	 */
 	public function users(): BelongsToMany
 	{
-			return $this->belongsToMany(User::class);
+		return $this->belongsToMany(User::class);
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Appointment extends Model
 	 */
 	public function getUsers(): DatabaseCollection
 	{
-			return $this->users()->get();
+		return $this->users()->get();
 	}
 
 	/**

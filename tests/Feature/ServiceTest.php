@@ -22,7 +22,7 @@ class ServiceTest extends Tools
 	{
 		try {
 			return random_int(
-				0,
+				1,
 				count(
 					$this->get('/service')->json()
 				)
@@ -34,18 +34,20 @@ class ServiceTest extends Tools
 	}
 
 	/**
-     * A basic test example.
-     *
-     * @return void
-     */
+	 * A basic test example.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
     public function test_index_service()
     {
         $response = $this->get('/service');
-		$response->assertOk();
+		$this->assertOk($response);
     }
 
 	/**
 	 * @return void
+	 * @throws Exception
 	 */
 	public function test_store_service()
 	{
@@ -58,7 +60,7 @@ class ServiceTest extends Tools
 				"image" => new UploadedFile(resource_path('testFiles/image1.jpg'), 'storeService.jpg', null, null, true),
 			]);
 
-		$response->assertOk();
+		$this->assertOk($response);
 		$this->checkIfServiceNumberIncreased($amountOfServicesBefore);
 	}
 
@@ -69,34 +71,41 @@ class ServiceTest extends Tools
 	public function test_update_service()
 	{
 		$serviceToUpdate = $this->getValidServiceId();
-
+		error_log(strval($serviceToUpdate));
 		$response = $this->post("/service/$serviceToUpdate",
 			[
-				"name" => "Serviço 1 alterado",
-				"description" => "Teste de alteração do serviço 1"
+				"name" => "Serviço $serviceToUpdate alterado",
+				"description" => "Teste de alteração do serviço $serviceToUpdate"
 			]);
-		$response->assertOk();
+		$this->assertOk($response);
 
 		$response = $this->post("/service/$serviceToUpdate",
 			[
-				"name" => "Serviço 1 alterado com nova imagem",
-				"description" => "Teste de alteração do serviço 1",
+				"name" => "Serviço $serviceToUpdate alterado com nova imagem",
+				"description" => "Teste de alteração do serviço $serviceToUpdate",
 				"image" => new UploadedFile(resource_path('testFiles/image2.jpg'), 'storeService.jpg', null, null, true),
 			]);
-		$response->assertOk();
+		$this->assertOk($response);
 	}
 
 	/**
 	 * @return void
+	 * @throws Exception
 	 */
 	public function test_delete_service()
 	{
 		$amountOfServicesBefore = count($this->get('/service')->json());
 
 		$serviceToDelete = $this->getValidServiceId();
-		$response = $this->delete("/service/$serviceToDelete");
-		$response->assertOk();
+		// Caso não tenha nenhum serviço, crio um só pra deletar kkkkk
+		if($serviceToDelete == 0){
+			$this->test_store_service();
+			$serviceToDelete = $this->getValidServiceId();
+			$amountOfServicesBefore = 1;
+		}
 
+		$response = $this->delete("/service/$serviceToDelete");
+		$this->assertOk($response);
 		$this->checkIfServiceNumberDecreased($amountOfServicesBefore);
 	}
 }

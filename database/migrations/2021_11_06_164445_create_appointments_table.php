@@ -21,7 +21,7 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->string("name");
             $table->string("datetime");
-			$table->foreignId("service_id")->constrained();
+			$table->foreignId("service_id")->constrained()->onDelete("cascade");
             $table->timestamps();
         });
     }

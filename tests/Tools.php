@@ -119,13 +119,15 @@ class Tools extends TestCase
 
 	/**
 	 * @param TestResponse $response
+	 * @param string $funcName
 	 * @return void
 	 * @throws Exception
 	 */
-	public function assertOk(TestResponse $response){
+	public function assertOk(TestResponse $response, string $funcName){
 		try{
 			$response->assertOk();
 		}catch(Exception $e){
+			error_log("Em $funcName\n");
 			error_log($response->json());
 			throw $e;
 		}

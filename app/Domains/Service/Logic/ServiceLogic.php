@@ -75,7 +75,7 @@ class ServiceLogic extends LogicsAndRepositories
 	 * @return void
 	 * @throws ServiceNotFound
 	 */
-	private function getFirstServiceWhere(string $field, $value): Service
+	public function getFirstServiceWhere(string $field, $value): Service
 	{
 		$service = $this->serviceRepository()->getFirstServiceWhere($field, $value);
 

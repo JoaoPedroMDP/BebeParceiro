@@ -42,7 +42,6 @@ class ServiceRepository
 	 */
 	public function getFirstServiceWhere(string $field, $value): ?Service
 	{
-//		dd($field, $value);
 		return Service::where($field, '=', $value)->first();
 	}
 

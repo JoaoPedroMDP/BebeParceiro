@@ -39,7 +39,7 @@ class LoginAction
 				'token' => $this->userLogic->authenticateUser(AuthenticateUserCommand::fromArray($request->all()))
 			]);
 		}catch(Exception $e){
-			$response = response()->json("Houve um erro ao completar a requisição");
+			$response = response()->json("Houve um erro ao completar a requisição Login");
 		}
 
 		return $response;

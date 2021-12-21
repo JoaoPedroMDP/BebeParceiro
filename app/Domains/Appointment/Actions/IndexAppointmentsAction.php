@@ -35,7 +35,7 @@ class IndexAppointmentsAction
 				200
 			);
 		}catch(Exception $exception){
-			$response = response()->json("Não foi possível concluir a requisição", 500);
+			$response = response()->json("Não foi possível concluir a requisição IndexAppointment", 500);
 		}
 
 		return $response;

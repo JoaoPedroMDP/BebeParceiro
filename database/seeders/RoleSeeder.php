@@ -34,12 +34,12 @@ class RoleSeeder extends Seeder
 		],
 
 		// Pessoa que marca quaisquer outros atendimentos
-		"Secretário" => [
+		"Secretario" => [
 			'General', 'Contact'
 		],
 
 		// Pessoa que marca o atendimento inicial, a qual invariavelmente entrará em contato com dados sensíveis
-		"Secretário inicial" => [
+		"Secretario inicial" => [
 			'General', 'Contact', 'Sensitive', 'Generate tokens'
 		],
 

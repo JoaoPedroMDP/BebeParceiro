@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
 				$newUser = new User;
 				$newUser->name = $roleName;
 				$newUser->surname = "da Silva";
-				$newUser->username = $roleName . "@email";
+				$newUser->username = $this->trimRoleName($roleName) . "@email";
 				$newUser->password = bcrypt("secret");
 				$newUser->save();
 				$newUser->assignRole($roleName);
@@ -42,5 +42,15 @@ class UserSeeder extends Seeder
 		return !is_null(
 			User::where($field,"=",$value)->first()
 		);
+	}
+
+	/**
+	 * @param string $roleName
+	 * @return string
+	 */
+	private function trimRoleName(string $roleName): string
+	{
+		$roleName = strtolower($roleName);
+		return str_replace(' ', '_', $roleName);
 	}
 }

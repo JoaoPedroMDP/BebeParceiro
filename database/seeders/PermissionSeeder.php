@@ -13,24 +13,13 @@ use Spatie\Permission\Models\Permission;
 class PermissionSeeder extends Seeder
 {
 	const PERMISSIONS = [
-		[
-			"name" => "Children"
-		],
-		[
-			"name" => "Contact"
-		],
-		[
-			"name" => "Edit responses"
-		],
-		[
-			"name" => "General"
-		],
-		[
-			"name" => "Localization"
-		],
-		[
-			"name" => "Sensitive"
-		],
+			"Children" => "Children",
+			"Contact" => "Contact",
+			"Edit responses" => "Edit responses",
+			"General" => "General",
+			"Localization" => "Localization",
+			"Sensitive" => "Sensitive",
+			"Generate tokens" => "Generate tokens",
 	];
 
     /**
@@ -42,7 +31,10 @@ class PermissionSeeder extends Seeder
     {
 		if(Permission::all()->count() == 0){
 			foreach(self::PERMISSIONS as $perm){
-				Permission::create($perm);
+				$permission = [
+					"name" => $perm
+				];
+				Permission::create($permission);
 			}
 		}
     }

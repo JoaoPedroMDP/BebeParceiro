@@ -13,51 +13,44 @@ use Spatie\Permission\Models\Role;
 class RoleSeeder extends Seeder
 {
 	const ROLES = [
-		[
-			"name" => "Admin", // Admin
-			"permissions" => [
-				'Children', 'Contact', 'Edit responses', 'General', 'Localization', 'Sensitive'
-			]
+
+		// Admin
+		"Admin" => [
+			'Children', 'Contact', 'Edit responses', 'General', 'Localization', 'Sensitive', 'Generate tokens'
 		],
-		[
-			"name" => "Atendente", // Realiza o primeiro atendimento
-			"permissions" => [
-				'General', 'Contact', 'Children'
-			]
+
+		// Realiza o primeiro atendimento
+		"Atendente" => [
+			'General', 'Contact', 'Children'
 		],
-		[
-			"name" => "Beneficiada", // Pessoa que será agraciada pelo projeto
-			"permissions" => []
+
+		// Pessoa que será agraciada pelo projeto
+		"Beneficiada" => [
+			'General', 'Contact', 'Children'
 		],
-		[
-			"name" => "Doula", // Presta serviços de Doula
-			"permissions" => [
-				'General', 'Contact', 'Children'
-			]
+
+		"Doula" => [
+			'General', 'Contact', 'Children'
 		],
-		[
-			"name" => "Secretário", // Pessoa que marca quaisquer outros atendimentos
-			"permissions" => [
-				'General', 'Contact'
-			]
+
+		// Pessoa que marca quaisquer outros atendimentos
+		"Secretário" => [
+			'General', 'Contact'
 		],
-		[
-			"name" => "Sensível", // Pessoa que marca o atendimento inicial, a qual invariavelmente entrará em contato com dados sensíveis
-			"permissions" => [
-				'General', 'Contact', 'Sensitive'
-			]
+
+		// Pessoa que marca o atendimento inicial, a qual invariavelmente entrará em contato com dados sensíveis
+		"Secretário inicial" => [
+			'General', 'Contact', 'Sensitive', 'Generate tokens'
 		],
-		[
-			"name" => "Trocas", // Responsável por marcar OU montar as trocas/kits
-			"permissions" => [
-				'Children'
-			]
+
+		// Responsável por marcar OU montar as trocas/kits
+		"Trocas" => [
+			'Children'
 		],
-		[
-			"name" => "Validador", // Valida os novos preenchimentos de formulário
-			"permissions" => [
-				'Edit responses'
-			]
+
+		// Valida os novos preenchimentos de formulário
+		"Validador" => [
+			'Edit responses'
 		],
 
 	];
@@ -70,11 +63,11 @@ class RoleSeeder extends Seeder
     public function run()
     {
 	    if(Role::all()->count() == 0) {
-		    foreach(self::ROLES as $role) {
+		    foreach(self::ROLES as $roleName => $permissions) {
 			    $newRole = Role::create(
-					['name' => $role['name']]
+					['name' => $roleName]
 			    );
-				$newRole->syncPermissions($role['permissions']);
+				$newRole->syncPermissions($permissions);
 		    }
 	    }
     }

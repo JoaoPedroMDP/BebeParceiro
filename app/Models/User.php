@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Seeders\RoleSeeder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -52,5 +54,55 @@ class User extends Authenticatable
 	public function getAppointments(): Collection
 	{
 		return $this->appointments()->without('users')->get();
+	}
+
+	// VOLUNTEER
+	/**
+	 * @return HasOne
+	 */
+	public function volunteer(): HasOne
+	{
+		return $this->hasOne(Volunteer::class);
+	}
+
+	/**
+	 * @return Volunteer|null
+	 */
+	public function getVolunteer(): ?Volunteer
+	{
+		return $this->volunteer()->first();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isVolunteer(): bool
+	{
+		return $this->hasRole(['Volunteer']);
+	}
+
+	// BENEFITED
+	/**
+	 * @return HasOne
+	 */
+	public function benefited(): HasOne
+	{
+		return $this->hasOne(Benefited::class);
+	}
+
+	/**
+	 * @return Benefited|null
+	 */
+	public function getBenefited(): ?Benefited
+	{
+		return $this->benefited()->first();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isBenefited(): bool
+	{
+		return $this->hasRole(['Benefited']);
 	}
 }

@@ -19,8 +19,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-		foreach(RoleSeeder::ROLES as $role){
-			$roleName = $role['name'];
+		foreach(RoleSeeder::ROLES as $roleName => $permissions){
 			if(!$this->alreadyCreated('name', $roleName)){
 				$newUser = new User;
 				$newUser->name = $roleName;

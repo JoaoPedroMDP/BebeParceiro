@@ -6,7 +6,9 @@ use App\Domains\Service\Actions\DeleteServiceAction;
 use App\Domains\Service\Actions\IndexServicesAction;
 use App\Domains\Service\Actions\StoreServiceAction;
 use App\Domains\Service\Actions\UpdateServiceAction;
+use App\Domains\Token\Actions\GenerateTokensAction;
 use App\Domains\User\Actions\LoginAction;
+use App\Http\Middleware\CanGenerateTokens;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,4 +32,7 @@ Route::post('login', [LoginAction::class, 'handle']);
 Route::middleware(['auth:sanctum'])->group(function() {
 	// APPOINTMENTS
 	Route::get('appointment', [IndexAppointmentsAction::class, 'handle']);
+
+	// TOKENS
+	Route::get("token/generate/{amount}", [GenerateTokensAction::class, 'handle'])->middleware(CanGenerateTokens::class);
 });

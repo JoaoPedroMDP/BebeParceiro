@@ -76,12 +76,22 @@ class ServiceTest extends Tools
 			]);
 		$response->assertOk();
 
+		$name = "Serviço $serviceToUpdate alterado com nova imagem";
+		$description = "Teste de alteração do serviço $serviceToUpdate";
+
 		$response = $this->post("/service/$serviceToUpdate",
 			[
-				"name" => "Serviço $serviceToUpdate alterado com nova imagem",
-				"description" => "Teste de alteração do serviço $serviceToUpdate",
+				"name" => $name,
+				"description" => $description,
 				"image" => new UploadedFile(resource_path('testFiles/image2.jpg'), 'storeService.jpg', null, null, true),
 			]);
+
+		$response->assertJsonFragment([
+			"id" => $serviceToUpdate,
+			"name" => $name,
+			"description" => $description
+		]);
+
 		$response->assertOk();
 	}
 

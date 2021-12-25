@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Domains\Core\HidesTimestamps;
 use Illuminate\Database\Eloquent\Collection as DatabaseCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder;
 
@@ -14,7 +14,7 @@ use Illuminate\Database\Query\Builder;
  * @package App\Models
  * @mixin Builder
  */
-class Volunteer extends HidesTimestamps
+class Volunteer extends Model
 {
 	use HasFactory;
 
@@ -25,7 +25,7 @@ class Volunteer extends HidesTimestamps
 	 */
 	public function user(): BelongsTo
 	{
-			return $this->belongsTo(User::class);
+		return $this->belongsTo(User::class);
 	}
 
 	/**
@@ -33,6 +33,6 @@ class Volunteer extends HidesTimestamps
 	 */
 	public function getUser(): DatabaseCollection
 	{
-			return $this->user()->get();
+		return $this->user()->get();
 	}
 }

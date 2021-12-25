@@ -22,16 +22,18 @@ class ImageRepository extends LogicsAndRepositories
 	{
 		$newImage = new Image;
 		$newImage->setPath($data['path']);
-		$newImage->setDescription($data['path']);
+		$newImage->setDescription($data['description']);
 		return $newImage;
 	}
 
 	/**
-	 * @param Image $image
+	 * @param Image|null $image
 	 * @return void
 	 */
-	public function deleteImage(Image $image){
-		Storage::delete($image->getPath()); // TODO: quem sabe adicionar um failproof aqui
-		$image->delete();
+	public function deleteImage(?Image $image){
+		if(!is_null($image)){
+			Storage::delete($image->getPath()); // TODO: quem sabe adicionar um failproof aqui
+			$image->delete();
+		}
 	}
 }

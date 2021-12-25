@@ -33,7 +33,7 @@ class IndexServicesAction
 				try{
 						$response = response()->json($this->serviceLogic->indexServices());
 				}catch(Exception $exception){
-						$response = response()->json("Não foi possível concluir a requisição", 500);
+						$response = response()->json("Não foi possível concluir a requisição IndexService", 500);
 				}
 
 				return $response;

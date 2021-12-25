@@ -25,7 +25,7 @@ class ServiceLogic extends LogicsAndRepositories
 	 */
 	public function indexServices()
 	{
-			return $this->repository('service')->indexRepositories();
+			return $this->serviceRepository()->indexRepositories();
 	}
 
 	/**
@@ -42,7 +42,7 @@ class ServiceLogic extends LogicsAndRepositories
 		];
 
 		$image = $this->imageLogic()->storeImage(StoreImageCommand::fromArray($storeImageData));
-		$service = $this->repository('service')->storeService($command->toArray());
+		$service = $this->serviceRepository()->storeService($command->toArray());
 		$service->image()->save($image);
 		$service->save();
 
@@ -75,7 +75,7 @@ class ServiceLogic extends LogicsAndRepositories
 	 * @return void
 	 * @throws ServiceNotFound
 	 */
-	private function getFirstServiceWhere(string $field, $value): Service
+	public function getFirstServiceWhere(string $field, $value): Service
 	{
 		$service = $this->serviceRepository()->getFirstServiceWhere($field, $value);
 

@@ -39,10 +39,11 @@ class UpdateServiceAction
 			);
 
 			$response = response()->json(
-				$this->serviceLogic->updateService(UpdateServiceCommand::fromArray($data))
+				$this->serviceLogic->updateService(UpdateServiceCommand::fromArray($data)),
+				200
 			);
 		}catch(Exception $exception){
-//			$response = response()->json("Não foi possível concluir a requisição", 500);
+//			$response = response()->json("Não foi possível concluir a requisição UpdateService", 500);
 			$response = response()->json($exception->getMessage(), 500);
 		}
 

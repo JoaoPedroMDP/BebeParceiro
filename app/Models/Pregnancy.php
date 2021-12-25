@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Domains\Core\HidesTimestamps;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Pregnancy
  * @package App\Models
  */
-class Pregnancy extends HidesTimestamps
+class Pregnancy extends Model
 {
     use HasFactory;
 }

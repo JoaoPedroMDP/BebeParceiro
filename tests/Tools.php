@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Models\User;
+use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Testing\TestResponse;
 
 /**
@@ -43,9 +46,10 @@ class Tools extends TestCase
 	 *
 	 * @param string $uri
 	 * @param array $data
+	 * @param array $headers
 	 * @return TestResponse TestResponse
 	 */
-	public function delete($uri, array $data = []): TestResponse
+	public function delete($uri, array $data = [], array $headers = []): TestResponse
 	{
 		$response = parent::delete($uri, $data);
 		$this->refreshApplication();
@@ -88,5 +92,44 @@ class Tools extends TestCase
 		}
 
 		$this->assertEquals($before + $number, $serviceNumberAfter);
+	}
+
+	/**
+	 * @param string $actorName
+	 * @return User
+	 * @throws Exception
+	 */
+	public function getActor(string $actorName): User
+	{
+		$actor = User::where("name", '=', $actorName)->first();
+		if(is_null($actor)){
+			throw new Exception("Impossible to retrieve $actorName");
+		}
+
+		return $actor;
+	}
+
+	/**
+	 * @param string $strToPrint
+	 * @return void
+	 */
+	public function printDebug(string $strToPrint){
+		error_log(">>>>>>>>".$strToPrint."<<<<<<<<");
+	}
+
+	/**
+	 * @param TestResponse $response
+	 * @param string $funcName
+	 * @return void
+	 * @throws Exception
+	 */
+	public function assertOk(TestResponse $response, string $funcName){
+		try{
+			$response->assertOk();
+		}catch(Exception $e){
+			error_log("Em $funcName\n");
+			error_log($response->json());
+			throw $e;
+		}
 	}
 }

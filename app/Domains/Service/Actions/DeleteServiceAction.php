@@ -33,9 +33,9 @@ class DeleteServiceAction
 	{
 		try{
 			$this->serviceLogic->deleteService(intval($id));
-			$response = response()->json("Serviço deletado");
-		}catch(Exception $exception){
-			$response = response()->json("Não foi possível concluir a requisição", 500);
+			$response = response()->json("Serviço deletado", 200);
+		}catch(Exception $e){
+			$response = response()->json($e->getMessage(), 500);
 		}
 
 		return $response;

@@ -22,8 +22,8 @@ class VolunteerSeeder extends Seeder
     public function run()
     {
 		if(Volunteer::count() == 0){
-			$users = User::factory()->count(5)->create();
-			$volunteers = Volunteer::factory()->count(5)->make();
+			$users = User::all();
+			$volunteers = Volunteer::factory()->count(count(RoleSeeder::ROLES))->make();
 
 			$this->attachVolunteersToUsers($volunteers, $users);
 		}

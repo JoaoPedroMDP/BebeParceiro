@@ -5,7 +5,11 @@ namespace App\Domains\Token\Logic;
 
 use App\Domains\Core\LogicsAndRepositories;
 use App\Domains\Core\Utils;
+use App\Domains\Token\CQRS\CheckTokenQuery;
 use App\Domains\Token\CQRS\GenerateTokensCommand;
+use App\Domains\Token\Exceptions\TokenAlreadyUsed;
+use App\Domains\Token\Exceptions\TokenNotFound;
+use App\Models\Token;
 use Exception;
 use Illuminate\Support\Str;
 
@@ -41,5 +45,36 @@ class TokenLogic extends LogicsAndRepositories
 		}
 
 		return $tokens;
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $value
+	 * @return Token
+	 * @throws TokenNotFound
+	 */
+	public function getFirstTokenWhere(string $field, string $value): Token
+	{
+		$token = $this->tokenRepository()->getFirstTokenWhere($field, $value);
+		if(is_null($token)){
+			throw new TokenNotFound();
+		}
+
+		return $token;
+	}
+
+	/**
+	 * @param CheckTokenQuery $query
+	 * @return bool
+	 * @throws TokenNotFound|TokenAlreadyUsed
+	 */
+	public function checkToken(CheckTokenQuery $query): bool
+	{
+		$token = $this->getFirstTokenWhere('token', $query->token);
+		if($token->isUsed()){
+			throw new TokenAlreadyUsed();
+		}
+
+		return true;
 	}
 }

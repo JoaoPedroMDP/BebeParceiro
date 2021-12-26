@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace App\Domains\Token\Actions;
 
-use App\Domains\Token\CQRS\GenerateTokensCommand;
+use App\Domains\Token\CQRS\CheckTokenQuery;
 use App\Domains\Token\Logic\TokenLogic;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
- * Class GenerateTokensAction
+ * Class CheckTokenAction
  * @package App\Domains\Token\Actions
  */
-class GenerateTokensAction
+class CheckTokenAction
 {
 
 	/**
@@ -31,21 +31,21 @@ class GenerateTokensAction
 
 	/**
 	 * @param Request $request
-	 * @param $amount
+	 * @param $token
 	 * @return JsonResponse
 	 */
-	public function handle(Request $request, $amount): JsonResponse
+	public function handle(Request $request, $token): JsonResponse
 	{
 		try{
 			$response = response()->json(
-				$this->tokenLogic->generateTokens(GenerateTokensCommand::fromArray($request->user(), $amount)
-				)
-				,201
-			);
+				$this->tokenLogic->checkToken(CheckTokenQuery::fromArray(['token'=>$token]))
+			,200);
 		}catch(Exception $e){
-			$response = response()->json("Não foi possível concluir a requisição", 400);
+			$response = response()->json("A requisição não pôde ser concluída", 400);
+			dd($e->getMessage());
 		}
 
 		return $response;
 	}
+
 }

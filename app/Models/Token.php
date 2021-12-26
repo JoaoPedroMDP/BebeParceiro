@@ -6,14 +6,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Query\Builder;
 
 /**
  * Class Token
  * @package App\Models
+ * @mixin Builder
  */
 class Token extends Model
 {
     use HasFactory;
+
+	const REGEX = "/[A-Z]{3}(\-[A-Z]{3}){2}/";
 
 	protected $fillable = [
 		'token'
@@ -64,6 +68,6 @@ class Token extends Model
 	public function isUsed(): bool
 	{
 		$this->touch();
-		return $this->used;
+		return boolval($this->used);
 	}
 }

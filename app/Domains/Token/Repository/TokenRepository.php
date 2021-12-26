@@ -25,4 +25,14 @@ class TokenRepository extends LogicsAndRepositories
 		$newToken->save();
 		return $newToken;
 	}
+
+	/**
+	 * @param string $field
+	 * @param string $value
+	 * @return Token|null
+	 */
+	public function getFirstTokenWhere(string $field, string $value): ?Token
+	{
+		return Token::where($field, $value)->first();
+	}
 }

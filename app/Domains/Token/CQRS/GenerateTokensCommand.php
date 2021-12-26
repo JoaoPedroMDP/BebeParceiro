@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Token\CQRS;
 
-use App\Domains\Core\Command;
+use App\Domains\Core\CommandQuery;
 use App\Domains\Core\Validates;
 use App\Models\User;
 use Exception;
@@ -12,7 +12,7 @@ use Exception;
  * Class GenerateTokensCommand
  * @package App\Domains\Token\CQRS
  */
-class GenerateTokensCommand extends Command
+class GenerateTokensCommand extends CommandQuery
 {
 	use Validates;
 

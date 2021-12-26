@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Image\CQRS;
 
-use App\Domains\Core\Command;
+use App\Domains\Core\CommandQuery;
 use App\Domains\Core\Validates;
 use Illuminate\Http\UploadedFile;
 
@@ -11,7 +11,7 @@ use Illuminate\Http\UploadedFile;
  * Class StoreImageCommand
  * @package App\Domains\Image\CQRS
  */
-class StoreImageCommand extends Command
+class StoreImageCommand extends CommandQuery
 {
 	use Validates;
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace App\Domains\Core;
 
 /**
- * Class Command
+ * Class CommandQuery
  * @package App\Domains\Core
  */
-class Command
+class CommandQuery
 {
 	/**
 	 * @var array

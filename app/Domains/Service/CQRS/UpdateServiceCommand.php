@@ -2,7 +2,7 @@
 
 namespace App\Domains\Service\CQRS;
 
-use App\Domains\Core\Command;
+use App\Domains\Core\CommandQuery;
 use App\Domains\Core\Validates;
 use Illuminate\Http\UploadedFile;
 use Webmozart\Assert\Assert;
@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
  * Class UpdateServiceCommand
  * @package App\Domains\Service\CQRS
  */
-class UpdateServiceCommand extends Command
+class UpdateServiceCommand extends CommandQuery
 {
 	use Validates;
 

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domains\User\CQRS;
 
-use App\Domains\Core\Command;
+use App\Domains\Core\CommandQuery;
 use App\Domains\Core\Validates;
 use Webmozart\Assert\Assert;
 
@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
  * Class AuthenticateUserCommand
  * @package App\Domains\User\CQRS
  */
-class AuthenticateUserCommand extends Command
+class AuthenticateUserCommand extends CommandQuery
 {
 	use Validates;
 

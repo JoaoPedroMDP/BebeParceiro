@@ -24,7 +24,7 @@ class CanGenerateTokens
 		if($request->user()->can("Generate tokens")){
 			return $next($request);
 		}else{
-			return response()->json("Você não tem autorização para gerar tokens");
+			return response()->json("Você não tem autorização para gerar tokens", 401);
 		}
     }
 }

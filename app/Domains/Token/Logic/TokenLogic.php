@@ -37,7 +37,7 @@ class TokenLogic extends LogicsAndRepositories
 
 			$newToken = $firstTriple . '-' . $secondTriple . '-' . $thirdTriple;
 			$data = [
-				"volunteer" => $command->user,
+				"volunteer" => $command->user->getVolunteer(),
 				"token" => $newToken
 			];
 			$this->tokenRepository()->createToken($data);

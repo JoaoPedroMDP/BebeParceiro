@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Database\Seeders\RoleSeeder;
+use App\Domains\User\Exceptions\NotABenefited;
+use App\Domains\User\Exceptions\NotAVolunteer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -66,10 +67,16 @@ class User extends Authenticatable
 	}
 
 	/**
-	 * @return Volunteer|null
+	 * @return Volunteer
+	 * @throws NotAVolunteer
+	 * @noinspection PhpIncompatibleReturnTypeInspection    Vai retornar voluntário sempre
 	 */
-	public function getVolunteer(): ?Volunteer
+	public function getVolunteer(): Volunteer
 	{
+		if( is_null($this->volunteer()->first()) ){
+			throw new NotAVolunteer();
+		}
+
 		return $this->volunteer()->first();
 	}
 
@@ -78,7 +85,13 @@ class User extends Authenticatable
 	 */
 	public function isVolunteer(): bool
 	{
-		return $this->hasRole(['Volunteer']);
+		try{
+			$this->getVolunteer();
+		}catch(NotAVolunteer $e){
+			return false;
+		}
+
+		return true;
 	}
 
 	// BENEFITED
@@ -92,9 +105,14 @@ class User extends Authenticatable
 
 	/**
 	 * @return Benefited|null
+	 * @noinspection PhpIncompatibleReturnTypeInspection Mesma coisa dali de cima
+	 * @throws NotABenefited
 	 */
 	public function getBenefited(): ?Benefited
 	{
+		if( is_null($this->benefited()->first()) ){
+			throw new NotABenefited();
+		}
 		return $this->benefited()->first();
 	}
 

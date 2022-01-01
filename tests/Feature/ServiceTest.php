@@ -49,9 +49,10 @@ class ServiceTest extends Tools
 	 */
 	public function test_store_service()
 	{
+		$actor = $this->getActor("Admin");
 		$amountOfServicesBefore = count($this->get('/service')->json());
 
-		$response = $this->post('/service',
+		$response = $this->actingAs($actor)->post('/service',
 			[
 				"name" => "Serviço 1",
 				"description" => "Teste de do serviço 1",
@@ -68,8 +69,9 @@ class ServiceTest extends Tools
 	 */
 	public function test_update_service()
 	{
+		$actor = $this->getActor("Admin");
 		$serviceToUpdate = $this->getValidServiceId();
-		$response = $this->post("/service/$serviceToUpdate",
+		$response = $this->actingAs($actor)->post("/service/$serviceToUpdate",
 			[
 				"name" => "Serviço $serviceToUpdate alterado",
 				"description" => "Teste de alteração do serviço $serviceToUpdate"
@@ -79,7 +81,7 @@ class ServiceTest extends Tools
 		$name = "Serviço $serviceToUpdate alterado com nova imagem";
 		$description = "Teste de alteração do serviço $serviceToUpdate";
 
-		$response = $this->post("/service/$serviceToUpdate",
+		$response = $this->actingAs($actor)->post("/service/$serviceToUpdate",
 			[
 				"name" => $name,
 				"description" => $description,
@@ -111,7 +113,9 @@ class ServiceTest extends Tools
 			$amountOfServicesBefore = 1;
 		}
 
-		$response = $this->delete("/service/$serviceToDelete");
+		$actor = $this->getActor("Admin");
+
+		$response = $this->actingAs($actor)->delete("/service/$serviceToDelete");
 		$response->assertOk();
 		$this->checkIfServiceNumberDecreased($amountOfServicesBefore);
 	}

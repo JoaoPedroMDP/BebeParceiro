@@ -8,6 +8,7 @@ use App\Domains\Service\Actions\StoreServiceAction;
 use App\Domains\Service\Actions\UpdateServiceAction;
 use App\Domains\Token\Actions\CheckTokenAction;
 use App\Domains\Token\Actions\GenerateTokensAction;
+use App\Domains\Token\Actions\IndexTokensAction;
 use App\Domains\User\Actions\LoginAction;
 use App\Http\Middleware\CanGenerateTokens;
 use Illuminate\Support\Facades\Route;
@@ -30,13 +31,21 @@ Route::get('token/check/{token}', [CheckTokenAction::class, 'handle']);
 
 // SERVICE
 Route::get('service', [IndexServicesAction::class, 'handle']);
-Route::post('service', [StoreServiceAction::class, 'handle']);
-Route::post('service/{id}', [UpdateServiceAction::class, 'handle']);
-Route::delete('service/{id}', [DeleteServiceAction::class, 'handle']);
+
 Route::middleware(['auth:sanctum'])->group(function() {
 	// APPOINTMENTS
 	Route::get('appointment', [IndexAppointmentsAction::class, 'handle']);
 
-	// TOKENS
-	Route::get("token/generate/{amount}", [GenerateTokensAction::class, 'handle'])->middleware(CanGenerateTokens::class);
+	Route::middleware(['volunteers'])->group(function () {
+		// SERVICE
+		Route::post('service', [StoreServiceAction::class, 'handle']);
+		Route::post('service/{id}', [UpdateServiceAction::class, 'handle']);
+		Route::delete('service/{id}', [DeleteServiceAction::class, 'handle']);
+
+		// TOKENS
+		Route::middleware(['tokens'])->group(function () {
+			Route::get("token/generate/{amount}", [GenerateTokensAction::class, 'handle']);
+			Route::get("token/{showAll}", [IndexTokensAction::class, 'handle']);
+		});
+	});
 });

@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
 
 		// Admin
 		"Admin" => [
-			'Children', 'Contact', 'Edit responses', 'General', 'Localization', 'Sensitive', 'Generate tokens'
+			'Children', 'Contact', 'Edit responses', 'General', 'Localization', 'Sensitive', 'Handle tokens'
 		],
 
 		// Realiza o primeiro atendimento
@@ -40,7 +40,7 @@ class RoleSeeder extends Seeder
 
 		// Pessoa que marca o atendimento inicial, a qual invariavelmente entrará em contato com dados sensíveis
 		"Secretario inicial" => [
-			'General', 'Contact', 'Sensitive', 'Generate tokens'
+			'General', 'Contact', 'Sensitive', 'Handle tokens'
 		],
 
 		// Responsável por marcar OU montar as trocas/kits

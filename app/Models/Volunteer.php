@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection as DatabaseCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
 
 /**
@@ -34,5 +35,28 @@ class Volunteer extends Model
 	public function getUser(): DatabaseCollection
 	{
 		return $this->user()->get();
+	}
+
+	/**
+	 * @return HasMany
+	 */
+	public function tokens(): HasMany
+	{
+		return $this->hasMany(Token::class);
+	}
+
+	/**
+	 * @param bool $showAll
+	 * @return DatabaseCollection|Token[]
+	 */
+	public function getTokens(bool $showAll): DatabaseCollection
+	{
+		if($showAll){
+			$tokens = $this->tokens()->get();
+		}else{
+			$tokens = $this->tokens()->where("used", '=', false)->get();
+		}
+
+		return $tokens;
 	}
 }

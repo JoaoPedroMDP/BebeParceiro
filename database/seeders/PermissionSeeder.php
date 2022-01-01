@@ -19,7 +19,7 @@ class PermissionSeeder extends Seeder
 			"General" => "General",
 			"Localization" => "Localization",
 			"Sensitive" => "Sensitive",
-			"Generate tokens" => "Generate tokens",
+			"Handle tokens" => "Handle tokens",
 	];
 
     /**

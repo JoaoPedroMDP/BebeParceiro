@@ -7,10 +7,10 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Class CanGenerateTokens
+ * Class CanHandleTokens
  * @package App\Http\Middleware
  */
-class CanGenerateTokens
+class CanHandleTokens
 {
     /**
      * Handle an incoming request.
@@ -21,10 +21,10 @@ class CanGenerateTokens
      */
     public function handle(Request $request, Closure $next)
     {
-		if($request->user()->can("Generate tokens")){
+		if($request->user()->can("Handle tokens")){
 			return $next($request);
 		}else{
-			return response()->json("Você não tem autorização para gerar tokens", 401);
+			return response()->json("Você não tem permissão para realizar esta ação", 401);
 		}
     }
 }

@@ -35,4 +35,14 @@ class TokenRepository extends LogicsAndRepositories
 	{
 		return Token::where($field, $value)->first();
 	}
+
+	/**
+	 * @param Token $token
+	 * @return void
+	 */
+	public function useToken(Token $token)
+	{
+		$token->useToken();
+		$token->save();
+	}
 }

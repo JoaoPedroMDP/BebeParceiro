@@ -7,10 +7,14 @@ use App\Domains\Core\LogicsAndRepositories;
 use App\Domains\Core\Utils;
 use App\Domains\Token\CQRS\CheckTokenQuery;
 use App\Domains\Token\CQRS\GenerateTokensCommand;
+use App\Domains\Token\CQRS\IndexTokensQuery;
 use App\Domains\Token\Exceptions\TokenAlreadyUsed;
 use App\Domains\Token\Exceptions\TokenNotFound;
+use App\Domains\User\Exceptions\NotAVolunteer;
 use App\Models\Token;
+use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\Collection as DatabaseCollection;
 use Illuminate\Support\Str;
 
 /**
@@ -76,5 +80,26 @@ class TokenLogic extends LogicsAndRepositories
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param Token $token
+	 * @return void
+	 */
+	public function useToken(Token $token){
+		$this->tokenRepository()->useToken($token);
+	}
+
+	/**
+	 * @param IndexTokensQuery $query
+	 * @param User $user
+	 * @return Token[]|DatabaseCollection
+	 * @throws NotAVolunteer
+	 */
+	public function indexTokens(IndexTokensQuery $query, User $user)
+	{
+		$volunteer = $user->getVolunteer();
+
+		return $volunteer->getTokens($query->showAll);
 	}
 }

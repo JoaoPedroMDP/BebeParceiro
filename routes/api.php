@@ -45,7 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
 		// TOKENS
 		Route::middleware(['tokens'])->group(function () {
 			Route::get("token/generate/{amount}", [GenerateTokensAction::class, 'handle']);
-			Route::get("token/{showAll}", [IndexTokensAction::class, 'handle']);
+			Route::get("token", [IndexTokensAction::class, 'handle']);
 		});
 	});
 });

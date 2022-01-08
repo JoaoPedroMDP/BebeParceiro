@@ -23,6 +23,10 @@ class Token extends Model
 		'token'
 	];
 
+	protected $hidden = [
+		'created_at', 'updated_at'
+	];
+
 	/**
 	 * @return BelongsTo
 	 */

@@ -47,16 +47,11 @@ class Volunteer extends Model
 
 	/**
 	 * @param bool $showAll
+	 * @param array $columns
 	 * @return DatabaseCollection|Token[]
 	 */
-	public function getTokens(bool $showAll): DatabaseCollection
+	public function getTokens(bool $showAll, array $columns = ['*']): DatabaseCollection
 	{
-		if($showAll){
-			$tokens = $this->tokens()->get();
-		}else{
-			$tokens = $this->tokens()->where("used", '=', false)->get();
-		}
-
-		return $tokens;
+		return $this->tokens()->where("used", '=', false)->get($columns);
 	}
 }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Domains\Token\Actions;
 
-use App\Domains\Token\CQRS\IndexTokensQuery;
 use App\Domains\Token\Logic\TokenLogic;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -30,20 +29,12 @@ class IndexTokensAction
 
 	/**
 	 * @param Request $request
-	 * @param string $showAll
 	 * @return JsonResponse
 	 */
-	public function handle(Request $request, string $showAll): JsonResponse
+	public function handle(Request $request): JsonResponse
 	{
 		try{
-			$response = $this->tokenLogic->indexTokens(
-				IndexTokensQuery::fromArray(
-					[
-						"showAll" => $showAll == 'showAll'
-					]
-				),
-				$request->user()
-			);
+			$response = $this->tokenLogic->indexTokens($request->user());
 		}catch(Exception $e){
 			$response = "A requisição não pode ser concluída";
 		}

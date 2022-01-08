@@ -24,7 +24,7 @@ class CreateBeneficiariesTable extends Migration
 			$table->boolean("is_pregnant");
 			$table->string("marital_status");
 			$table->float("familiar_income");
-			$table->boolean("disabled");
+			$table->boolean("disablement");
 			$table->boolean("approved");
 			$table->foreignId("user_id")->constrained();
 			$table->timestamps();

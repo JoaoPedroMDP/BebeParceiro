@@ -19,13 +19,13 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-						$table->string("city");
-						$table->string("street");
-						$table->string("number");
-						$table->string("complement");
-						$table->string("cep");
-						$table->string("reference");
-						$table->foreignId("user_id")->constrained("users");
+			$table->string("city");
+			$table->string("street");
+			$table->string("number");
+			$table->string("complement");
+			$table->string("cep");
+			$table->string("reference");
+			$table->foreignId("user_id")->constrained("users");
             $table->timestamps();
         });
     }

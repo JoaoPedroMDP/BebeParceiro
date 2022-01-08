@@ -19,8 +19,8 @@ class CreateSocialBenefitsTable extends Migration
     {
         Schema::create('social_benefits', function (Blueprint $table) {
             $table->id();
-						$table->string("name");
-						$table->boolean("enabled");
+			$table->string("name");
+			$table->boolean("enabled");
             $table->timestamps();
         });
     }

@@ -1,6 +1,16 @@
 <?php
+declare(strict_types=1);
 
-use Illuminate\Http\Request;
+use App\Domains\Appointment\Actions\IndexAppointmentsAction;
+use App\Domains\Service\Actions\DeleteServiceAction;
+use App\Domains\Service\Actions\IndexServicesAction;
+use App\Domains\Service\Actions\StoreServiceAction;
+use App\Domains\Service\Actions\UpdateServiceAction;
+use App\Domains\Token\Actions\CheckTokenAction;
+use App\Domains\Token\Actions\GenerateTokensAction;
+use App\Domains\Token\Actions\IndexTokensAction;
+use App\Domains\User\Actions\LoginAction;
+use App\Http\Middleware\CanGenerateTokens;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +24,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', [LoginAction::class, 'handle']);
+
+// TOKEN
+Route::get('token/check/{token}', [CheckTokenAction::class, 'handle']);
+
+// SERVICE
+Route::get('service', [IndexServicesAction::class, 'handle']);
+
+Route::middleware(['auth:sanctum'])->group(function() {
+	// APPOINTMENTS
+	Route::get('appointment', [IndexAppointmentsAction::class, 'handle']);
+
+	Route::middleware(['volunteers'])->group(function () {
+		// SERVICE
+		Route::post('service', [StoreServiceAction::class, 'handle']);
+		Route::post('service/{id}', [UpdateServiceAction::class, 'handle']);
+		Route::delete('service/{id}', [DeleteServiceAction::class, 'handle']);
+
+		// TOKENS
+		Route::middleware(['tokens'])->group(function () {
+			Route::get("token/generate/{amount}", [GenerateTokensAction::class, 'handle']);
+			Route::get("token", [IndexTokensAction::class, 'handle']);
+		});
+	});
 });

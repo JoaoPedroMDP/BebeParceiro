@@ -1,9 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+/**
+ * Class DatabaseSeeder
+ * @package Database\Seeders
+ */
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -13,6 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+	    (new PermissionSeeder())->run();
+	    (new RoleSeeder())->run();
+	    (new UserSeeder())->run();
+	    (new ServiceSeeder())->run();
+        (new VolunteerSeeder())->run();
+		(new AppointmentSeeder())->run();
     }
 }

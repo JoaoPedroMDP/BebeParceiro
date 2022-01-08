@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Domains\Core;
 
+use Exception;
+
 /**
  * Class Utils
  * @package App\Domains\Core
@@ -32,5 +34,22 @@ class Utils
 		}
 
 		return $usefulData;
+	}
+
+	/**
+	 * @param int $size
+	 * @return string
+	 * @throws Exception
+	 */
+	public function randomAlphaString(int $size = 16): string
+	{
+		$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$string = '';
+
+		for ($i = 0; $i < $size; $i++){
+			$string .= $chars[random_int(0, count(str_split($chars)) - 1)];
+		}
+
+		return $string;
 	}
 }

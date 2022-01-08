@@ -9,6 +9,8 @@ use App\Domains\Image\Logic\ImageLogic;
 use App\Domains\Image\Repository\ImageRepository;
 use App\Domains\Service\Logic\ServiceLogic;
 use App\Domains\Service\Repository\ServiceRepository;
+use App\Domains\Token\Logic\TokenLogic;
+use App\Domains\Token\Repository\TokenRepository;
 use App\Domains\User\Logic\UserLogic;
 use App\Domains\User\Repository\UserRepository;
 
@@ -152,5 +154,39 @@ class LogicsAndRepositories
 		}
 
 		return $this->appointmentRepository;
+	}
+
+	/**
+	 * @var TokenLogic
+	 */
+	public $tokenLogic;
+
+	/**
+	 * @var AppointmentRepository
+	 */
+	public $tokenRepository;
+
+	/**
+	 * @return TokenLogic
+	 */
+	public function tokenLogic(): TokenLogic
+	{
+		if($this->tokenLogic == null){
+			$this->tokenLogic = new TokenLogic();
+		}
+
+		return $this->tokenLogic;
+	}
+
+	/**
+	 * @return TokenRepository
+	 */
+	public function tokenRepository(): TokenRepository
+	{
+		if($this->tokenRepository == null){
+			$this->tokenRepository = new TokenRepository();
+		}
+
+		return $this->tokenRepository;
 	}
 }

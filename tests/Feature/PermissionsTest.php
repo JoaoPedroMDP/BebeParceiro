@@ -23,16 +23,15 @@ class PermissionsTest extends Tools
 	{
 		$roles = RoleSeeder::ROLES;
 
-		foreach($roles as $role)
+		foreach($roles as $name => $permissions)
 		{
-			$name = $role['name'];
 			$user = User::where("name", '=', $name)->first();
 			$this->assertTrue(
 				$user->hasRole($name),
 				"User $name isn't $name"
 			);
 
-			foreach($role['permissions'] as $perm){
+			foreach($permissions as $perm){
 				$this->assertTrue(
 					$user->can($perm),
 					"User $name can't $perm"

@@ -6,9 +6,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateVolunteersTable
+ * Class CreateTokensTable
  */
-class CreateVolunteersTable extends Migration
+class CreateTokensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,9 +17,12 @@ class CreateVolunteersTable extends Migration
      */
     public function up()
     {
-        Schema::create('volunteers', function (Blueprint $table) {
+        Schema::create('tokens', function (Blueprint $table) {
             $table->id();
-			$table->foreignId("user_id")->constrained();
+			$table->foreignId('volunteer_id')->constrained();
+			$table->foreignId('benefited_id')->nullable()->references('id')->on('beneficiaries');
+			$table->string('token')->unique();
+			$table->boolean('used')->default(false);
             $table->timestamps();
         });
     }
@@ -31,6 +34,6 @@ class CreateVolunteersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('volunteers');
+        Schema::dropIfExists('tokens');
     }
 }

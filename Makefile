@@ -1,5 +1,5 @@
 all:
-	echo "N tem nada aqui"
+	bash testing.sh
 
 test:
-	bash testing.sh
+	php artisan test --env=testing

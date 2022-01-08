@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Domains\Appointment\CQRS;
 
 use App\Domains\Appointment\Exceptions\AppointmentInPast;
-use App\Domains\Core\Command;
+use App\Domains\Core\CommandQuery;
 use App\Domains\Core\Validates;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
@@ -14,7 +14,7 @@ use Exception;
  * Class CreateAppointmentCommand
  * @package App\Domains\Appointment\CQRS
  */
-class CreateAppointmentCommand extends Command
+class CreateAppointmentCommand extends CommandQuery
 {
 	use Validates;
 

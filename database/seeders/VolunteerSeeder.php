@@ -21,23 +21,23 @@ class VolunteerSeeder extends Seeder
      */
     public function run()
     {
-				if(Volunteer::count() == 0){
-						$users = User::factory()->count(5)->create();
-						$volunteers = Volunteer::factory()->count(5)->make();
+		if(Volunteer::count() == 0){
+			$users = User::all();
+			$volunteers = Volunteer::factory()->count(count(RoleSeeder::ROLES))->make();
 
-						$this->attachVolunteersToUsers($volunteers, $users);
-				}
+			$this->attachVolunteersToUsers($volunteers, $users);
+		}
     }
 
-		/**
-		 * @param DatabaseCollection $volunteers
-		 * @param DatabaseCollection $users
-		 */
-		private function attachVolunteersToUsers(DatabaseCollection $volunteers, DatabaseCollection $users)
-		{
-				for( $i = 0; $i < count($volunteers); $i++){
-						$volunteers[$i]->user()->associate($users[$i]);
-						$volunteers[$i]->save();
-				}
+	/**
+	 * @param DatabaseCollection $volunteers
+	 * @param DatabaseCollection $users
+	 */
+	private function attachVolunteersToUsers(DatabaseCollection $volunteers, DatabaseCollection $users)
+	{
+		for( $i = 0; $i < count($volunteers); $i++){
+			$volunteers[$i]->user()->associate($users[$i]);
+			$volunteers[$i]->save();
 		}
+	}
 }

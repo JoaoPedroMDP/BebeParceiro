@@ -16,6 +16,18 @@ class StoreServiceCommand extends CommandQuery
 {
 	use Validates;
 
+	const FIELDS = [
+		'name' => [
+			'rules' => ['string']
+		],
+		'image' => [
+			'rules' => ['uploadedFile']
+		],
+		'description' => [
+			'rules' => ['string']
+		]
+	];
+
 	/**
 	 * @var string
 	 */
@@ -51,18 +63,13 @@ class StoreServiceCommand extends CommandQuery
 	 */
 	public static function fromArray(array $data): StoreServiceCommand
 	{
-		$fields = ['name', 'image', 'description'];
-		self::keysExists($data, $fields);
-		self::isString($data, 'name');
-		self::isString($data, 'description');
-
-		Assert::isInstanceOf($data['image'], UploadedFile::class, "Erro ao carregar a imagem na requisição");
+		self::validate($data, self::FIELDS);
 
 		return new self(
 			$data['name'],
 			$data['image'],
 			$data['description'],
-			$fields
+			array_keys(self::FIELDS)
 		);
 	}
 }

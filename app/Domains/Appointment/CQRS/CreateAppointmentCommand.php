@@ -18,6 +18,18 @@ class CreateAppointmentCommand extends CommandQuery
 {
 	use Validates;
 
+	const FIELDS = [
+		'name' => [
+			'rules' => ['string']
+		],
+		'datetime' => [
+			'rules' => ['futureDatetime']
+		],
+		'serviceId' => [
+			'rules' => ['integer']
+		],
+	];
+
 	/**
 	 * @var string
 	 */
@@ -50,40 +62,16 @@ class CreateAppointmentCommand extends CommandQuery
 	/**
 	 * @param array $data
 	 * @return CreateAppointmentCommand
-	 * @throws AppointmentInPast
 	 */
 	public static function fromArray(array $data): CreateAppointmentCommand
 	{
-		$fields = ['name', 'datetime', 'serviceId'];
-		self::keysExists($data, $fields);
-		self::isString($data, 'name');
-		self::isString($data, 'datetime');
-
-		self::validateDatetime($data['datetime']);
+		self::validate($data, self::FIELDS);
 
 		return new self(
 			$data['name'],
 			$data['datetime'],
 			intval($data['serviceId']),
-			$fields
+			array_keys(self::FIELDS)
 		);
-	}
-
-	/**
-	 * @param $datetime
-	 * @return void
-	 * @throws AppointmentInPast
-	 */
-	private static function validateDatetime($datetime)
-	{
-		try {
-			$parsed = Carbon::parse($datetime);
-		}catch(InvalidFormatException $e){
-			throw new InvalidFormatException("Formato da data está errado.");
-		}
-
-		if(!$parsed->isFuture()){
-			throw new AppointmentInPast();
-		}
 	}
 }

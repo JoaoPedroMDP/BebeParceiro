@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Domains\Service\CQRS;
 
@@ -14,6 +15,21 @@ use Webmozart\Assert\Assert;
 class UpdateServiceCommand extends CommandQuery
 {
 	use Validates;
+
+	const FIELDS = [
+		'id' => [
+			'rules' => ['integer']
+		],
+		'name' => [
+			'rules' => ['string']
+		],
+		'image' => [
+			'rules' => ['nullable', 'uploadedFile']
+		],
+		'description' => [
+			'rules' => ['string']
+		]
+	];
 
 	/**
 	 * @var integer
@@ -58,14 +74,7 @@ class UpdateServiceCommand extends CommandQuery
 	public static function fromArray(array $data): UpdateServiceCommand
 	{
 		$fields = ['name', 'description', 'id'];
-		self::keysExists($data, $fields);
-
-		self::isString($data, 'name');
-		self::isString($data, 'description');
-
-		if(isset($data['image'])){
-			Assert::isInstanceOf($data['image'], UploadedFile::class, "Erro ao carregar a imagem na requisição");
-		}
+		self::validate($data, self::FIELDS);
 
 		return new self(
 			$data['id'],

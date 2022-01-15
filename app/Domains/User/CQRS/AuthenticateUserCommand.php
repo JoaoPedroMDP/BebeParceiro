@@ -14,6 +14,14 @@ use Webmozart\Assert\Assert;
 class AuthenticateUserCommand extends CommandQuery
 {
 	use Validates;
+	const FIELDS = [
+		'username' => [
+			'rules' => ['string']
+		],
+		'password' => [
+			'rules' => ['string']
+		]
+	];
 
 	/**
 	 * @var string
@@ -43,15 +51,12 @@ class AuthenticateUserCommand extends CommandQuery
 	 */
 	public static function fromArray(array $data): AuthenticateUserCommand
 	{
-		$fields = ['username', 'password'];
-		self::keysExists($data, $fields);
-		self::isString($data, 'username');
-		self::isString($data, 'password');
+		self::validate($data, self::FIELDS);
 
 		return new self(
 			$data['username'],
 			$data['password'],
-			$fields
+			array_keys(self::FIELDS)
 		);
 	}
 }

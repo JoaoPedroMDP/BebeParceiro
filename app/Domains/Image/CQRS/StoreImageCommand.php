@@ -14,7 +14,21 @@ use Illuminate\Http\UploadedFile;
 class StoreImageCommand extends CommandQuery
 {
 	use Validates;
+	const FIELDS = [
+		'image' => [
+			'rules' => ['uploadedFile']
+		],
+		'description' => [
+			'rules' => ['string']
+		],
+		'path' => [
+			'rules' => ['string']
+		],
+		'fileName' => [
+			'rules' => ['string']
+		],
 
+	];
 	/**
 	 * @var UploadedFile
 	 */
@@ -42,7 +56,7 @@ class StoreImageCommand extends CommandQuery
 	 * @param string $path
 	 * @param string $fileName
 	 */
-	public function __construct(UploadedFile $image, string $description, array $fields, string $path, string $fileName)
+	public function __construct(UploadedFile $image, string $description, string $path, string $fileName, array $fields)
 	{
 		$this->image = $image;
 		$this->description = $description;
@@ -57,19 +71,14 @@ class StoreImageCommand extends CommandQuery
 	 */
 	public static function fromArray(array $data): StoreImageCommand
 	{
-		$fields = ['image', 'description', 'path', 'fileName'];
-
-		self::keysExists($data, $fields);
-		self::isString($data, 'description');
-		self::isString($data, 'path');
-		self::isString($data, 'fileName');
+		self::validate($data, self::FIELDS);
 
 		return new self(
 			$data['image'],
 			$data['description'],
-			$fields,
 			$data['path'],
-			$data['fileName']
+			$data['fileName'],
+			array_keys(self::FIELDS)
 		);
 	}
 }

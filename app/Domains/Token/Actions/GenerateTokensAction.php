@@ -31,15 +31,14 @@ class GenerateTokensAction
 
 	/**
 	 * @param Request $request
-	 * @param $amount
+	 * @param string $amount
 	 * @return JsonResponse
 	 */
-	public function handle(Request $request, $amount): JsonResponse
+	public function handle(Request $request, string $amount): JsonResponse
 	{
 		try{
 			$response = response()->json(
-				$this->tokenLogic->generateTokens(GenerateTokensCommand::fromArray($request->user(), $amount)
-				)
+				$this->tokenLogic->generateTokens($request->user(), intval($amount))
 				,201
 			);
 		}catch(Exception $e){

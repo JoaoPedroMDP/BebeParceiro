@@ -5,6 +5,8 @@ namespace App\Domains\Core;
 
 use App\Domains\Appointment\Logic\AppointmentLogic;
 use App\Domains\Appointment\Repository\AppointmentRepository;
+use App\Domains\Benefited\Logic\BenefitedLogic;
+use App\Domains\Benefited\Repository\BenefitedRepository;
 use App\Domains\Image\Logic\ImageLogic;
 use App\Domains\Image\Repository\ImageRepository;
 use App\Domains\Service\Logic\ServiceLogic;
@@ -188,5 +190,39 @@ class LogicsAndRepositories
 		}
 
 		return $this->tokenRepository;
+	}
+
+	/**
+	 * @var BenefitedLogic
+	 */
+	public $benefitedLogic;
+
+	/**
+	 * @var AppointmentRepository
+	 */
+	public $benefitedRepository;
+
+	/**
+	 * @return BenefitedLogic
+	 */
+	public function benefitedLogic(): BenefitedLogic
+	{
+		if($this->benefitedLogic == null){
+			$this->benefitedLogic = new BenefitedLogic();
+		}
+
+		return $this->benefitedLogic;
+	}
+
+	/**
+	 * @return BenefitedRepository
+	 */
+	public function benefitedRepository(): BenefitedRepository
+	{
+		if($this->benefitedRepository == null){
+			$this->benefitedRepository = new BenefitedRepository();
+		}
+
+		return $this->benefitedRepository;
 	}
 }

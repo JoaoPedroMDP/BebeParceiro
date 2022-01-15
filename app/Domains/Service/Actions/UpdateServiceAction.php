@@ -8,6 +8,7 @@ use App\Domains\Service\Logic\ServiceLogic;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class UpdateServiceAction
@@ -44,6 +45,8 @@ class UpdateServiceAction
 			);
 		}catch(Exception $exception){
 //			$response = response()->json("Não foi possível concluir a requisição UpdateService", 500);
+			Log::error($exception->getMessage());
+			Log::error($exception->getTraceAsString());
 			$response = response()->json($exception->getMessage(), 500);
 		}
 

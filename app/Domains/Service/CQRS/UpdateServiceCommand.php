@@ -24,7 +24,7 @@ class UpdateServiceCommand extends CommandQuery
 			'rules' => ['required', 'string']
 		],
 		'image' => [
-			'rules' => ['required', 'nullable', 'uploadedFile']
+			'rules' => ['nullable', 'uploadedFile']
 		],
 		'description' => [
 			'rules' => ['required', 'string']

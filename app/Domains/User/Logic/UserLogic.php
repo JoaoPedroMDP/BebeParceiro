@@ -61,7 +61,7 @@ class UserLogic extends LogicsAndRepositories
 	 */
 	public function storeUser(StoreUserCommand $command): User
 	{
-		$this->checkIfLoginIsUnique($command->telephone);
+//		$this->checkIfLoginIsUnique($command->telephone);
 		$userParams = array_merge(
 			['login' => $command->telephone],
 			$command->toArray()

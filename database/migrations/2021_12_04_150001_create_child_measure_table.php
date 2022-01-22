@@ -19,8 +19,9 @@ class CreateChildMeasureTable extends Migration
     {
         Schema::create('child_measure', function (Blueprint $table) {
             $table->id();
-						$table->foreignId("measure_id")->constrained("measures");
-						$table->foreignId("child_id")->constrained("children");
+			$table->foreignId("measure_id")->constrained("measures");
+			$table->foreignId("child_id")->constrained("children");
+			$table->string("value")->nullable();
             $table->timestamps();
         });
     }

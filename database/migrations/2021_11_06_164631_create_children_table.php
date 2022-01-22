@@ -19,14 +19,11 @@ class CreateChildrenTable extends Migration
     {
         Schema::create('children', function (Blueprint $table) {
             $table->id();
-				$table->string("name");
-				$table->enum("sex",
-					[
-						"male", "female"
-					]
-				);
-				$table->string("birthday");
-				$table->foreignId("beneficiary_id")->constrained("beneficiaries");
+			$table->string("name");
+			$table->string("sex");
+			$table->string("birthday");
+			$table->float("weight");
+			$table->foreignId("benefited_id")->constrained("beneficiaries");
             $table->timestamps();
         });
     }

@@ -9,6 +9,8 @@ use App\Domains\Appointment\Logic\AppointmentLogic;
 use App\Domains\Appointment\Repository\AppointmentRepository;
 use App\Domains\Benefited\Logic\BenefitedLogic;
 use App\Domains\Benefited\Repository\BenefitedRepository;
+use App\Domains\Benefited\Repository\ChildRepository;
+use App\Domains\Benefited\Repository\PregnancyRepository;
 use App\Domains\Image\Logic\ImageLogic;
 use App\Domains\Image\Repository\ImageRepository;
 use App\Domains\Service\Logic\ServiceLogic;
@@ -205,6 +207,16 @@ class LogicsAndRepositories
 	public $benefitedRepository;
 
 	/**
+	 * @var PregnancyRepository
+	 */
+	public $pregnancyRepository;
+
+	/**
+	 * @var ChildRepository
+	 */
+	public $childRepository;
+
+	/**
 	 * @return BenefitedLogic
 	 */
 	public function benefitedLogic(): BenefitedLogic
@@ -228,8 +240,29 @@ class LogicsAndRepositories
 		return $this->benefitedRepository;
 	}
 
+	/**
+	 * @return PregnancyRepository
+	 */
+	public function pregnancyRepository(): PregnancyRepository
+	{
+		if($this->pregnancyRepository == null){
+			$this->pregnancyRepository = new PregnancyRepository();
+		}
 
+		return $this->pregnancyRepository;
+	}
 
+	/**
+	 * @return ChildRepository
+	 */
+	public function childRepository(): ChildRepository
+	{
+		if($this->childRepository == null){
+			$this->childRepository = new ChildRepository();
+		}
+
+		return $this->childRepository;
+	}
 
 	/**
 	 * @var AddressLogic

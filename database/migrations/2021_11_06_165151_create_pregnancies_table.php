@@ -19,16 +19,8 @@ class CreatePregnanciesTable extends Migration
     {
         Schema::create('pregnancies', function (Blueprint $table) {
             $table->id();
-			$table->string("name")->nullable();
-			$table->enum('sex',
-				[
-					"male", "female", "unknown"
-				]
-			);
 			$table->boolean("risky_pregnancy");
-			$table->string("birth_forecast");
-			$table->string("weight_forecast");
-			$table->foreignId("benefited_id")->constrained('beneficiaries');
+			$table->foreignId("child_id")->constrained('children');
             $table->timestamps();
         });
     }

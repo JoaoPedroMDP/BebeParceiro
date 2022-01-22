@@ -5,12 +5,17 @@ namespace App\Domains\Benefited\Logic;
 
 use App\Domains\Address\CQRS\StoreAddressCommand;
 use App\Domains\Benefited\CQRS\StoreBenefitedCommand;
+use App\Domains\Benefited\CQRS\StoreChildCommand;
+use App\Domains\Benefited\CQRS\StorePregnancyCommand;
 use App\Domains\Core\LogicsAndRepositories;
 use App\Domains\Token\CQRS\CheckTokenQuery;
 use App\Domains\Token\Exceptions\TokenAlreadyUsed;
 use App\Domains\Token\Exceptions\TokenNotFound;
 use App\Domains\User\CQRS\StoreUserCommand;
 use App\Domains\User\Exceptions\LoginAlreadyTaken;
+use App\Models\Benefited;
+use App\Models\Child;
+use App\Models\Pregnancy;
 use App\Models\User;
 
 /**
@@ -37,9 +42,13 @@ class BenefitedLogic extends LogicsAndRepositories
 			['user' => $benefitedUser],
 			$command->getBenefitedData()
 		);
-		$this->benefitedRepository()->storeBenefited($benefitedParams);
-		//TODO: Verificar casos especiais: criança ou gravidez
-		//TODO: Invalidar o token usado
+		$benefited = $this->benefitedRepository()->storeBenefited($benefitedParams);
+
+		$child = $this->storeChild($command->child, $benefited);
+		if($command->isPregnant){
+			$pregnancy = $this->storePregnancy($command->pregnancy, $child);
+		}
+
 //		$this->tokenLogic()->useToken($command->token);
 		dd("chegou aqui amém");
 	}
@@ -56,5 +65,35 @@ class BenefitedLogic extends LogicsAndRepositories
 			$addressData
 		);
 		$this->addressLogic()->storeAddress(StoreAddressCommand::fromArray($addressParams), $benefitedUser);
+	}
+
+	/**
+	 * @param array $child
+	 * @param Benefited $benefited
+	 * @return Child
+	 */
+	private function storeChild(array $child, Benefited $benefited): Child
+	{
+		$params = array_merge(
+			['benefited' => $benefited],
+			$child
+		);
+
+		return $this->childRepository()->storeChild(StoreChildCommand::fromArray($params)->toArray());
+	}
+
+	/**
+	 * @param array $pregnancyData
+	 * @param Child $child
+	 * @return Pregnancy
+	 */
+	private function storePregnancy(array $pregnancyData, Child $child): Pregnancy
+	{
+		$params = array_merge(
+			['child' => $child],
+			$pregnancyData
+		);
+
+		return $this->pregnancyRepository()->storePregnancy(StorePregnancyCommand::fromArray($params)->toArray());
 	}
 }

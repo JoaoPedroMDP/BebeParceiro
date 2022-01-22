@@ -39,7 +39,6 @@ class StoreBenefitedCommand extends CommandQuery
 		'hasDisablement' => [
 			'rules' => ['required', 'boolean']
 		],
-
 		'user' => [
 			'rules' => ['required', 'array']
 		],
@@ -47,48 +46,16 @@ class StoreBenefitedCommand extends CommandQuery
 			'rules' => ['required', 'array']
 		],
 		'child' => [
-			'rules' => ['nullable', 'array']
+			'rules' => ['required', 'array']
 		],
+
 		'pregnancy' => [
 			'rules' => ['nullable', 'array']
 		],
-//		'childName' => [
-//			'rules' => ['nullable', 'string']
-//		],
-//		'childSurname' => [
-//			'rules' => ['nullable', 'string']
-//		],
-//		'childSex' => [
-//			'rules' => ['nullable', 'string']
-//		],
-//		'childBirthday' => [
-//			'rules' => ['nullable', 'string']
-//		],
-//		'childMeasurements' => [
-//			'rules' => ['nullable', 'array']
-//		],
-//
-//		'fetusSex' => [
-//			'rules' => ['nullable', 'string']
-//		],
-//		'riskyPregnancy' => [
-//			'rules' => ['nullable', 'boolean']
-//		],
-//		'fetusName' => [
-//			'rules' => ['nullable', 'string']
-//		],
-//		'fetusBirthdayForecast' => [
-//			'rules' => ['nullable', 'string']
-//		],
-//		'fetusWeightForecast' => [
-//			'rules' => ['nullable', 'float']
-//		]
 	];
 
-
-	// A declaração das outras variáveis e o construtor estão no final da classe
-	// Era muita coisa
 	/**
+	 * As variáveis estão no final do arquivo, era muita coisa
 	 * @param string $token
 	 * @param int $childCount
 	 * @param string $birthday
@@ -128,6 +95,7 @@ class StoreBenefitedCommand extends CommandQuery
 	{
 		self::formatBenefitedFields($data);
 		self::validate($data, self::FIELDS);
+
 		return new self(
 			$data['token'],
 			$data['childCount'],
@@ -137,10 +105,9 @@ class StoreBenefitedCommand extends CommandQuery
             $data['familiarIncome'],
 			$data['socialBenefits'],
 			$data['hasDisablement'],
-
 			$data['user'],
-			$data['address'] ?? [],
-			$data['child'] ?? [],
+			$data['address'],
+			$data['child'],
 			$data['pregnancy'] ?? []
 		);
 	}
@@ -152,9 +119,9 @@ class StoreBenefitedCommand extends CommandQuery
 	private static function formatBenefitedFields(array &$data)
 	{
 		$data['childCount'] = intval($data['childCount']);
-		$data['isPregnant'] = boolval($data['isPregnant']);
+		$data['isPregnant'] = !($data['isPregnant'] == 'false'); // Boolval não funciona, essa porcaria
 		$data['familiarIncome'] = floatval($data['familiarIncome']);
-		$data['hasDisablement'] = boolval($data['hasDisablement']);
+		$data['hasDisablement'] = !($data['hasDisablement'] == 'false');
 	}
 
 	/**
@@ -171,15 +138,6 @@ class StoreBenefitedCommand extends CommandQuery
 			'social_benefits' => $this->socialBenefits,
 			'has_disablement' => $this->hasDisablement,
 		];
-	}
-
-	/**
-	 * @param array $data
-	 * @return void
-	 */
-	private static function formatPregnancyFields(array &$data){
-		$data['riskyPregnancy'] = boolval($data['riskyPregnancy']);
-		$data['weightForecast'] = floatval($data['weightForecast']);
 	}
 
 	/**

@@ -144,6 +144,10 @@ trait Validates
 	public function validate(array $data, array $fields){
 		foreach($fields as $field => $config){
 			// Se o campo existir
+			if(in_array('required', $config['rules'])){
+				self::validateRequired($data, $field);
+			}
+
 			if(array_key_exists($field, $data)){
 				foreach($config['rules'] as $rule){
 					$validation = 'validate' . ucfirst($rule);

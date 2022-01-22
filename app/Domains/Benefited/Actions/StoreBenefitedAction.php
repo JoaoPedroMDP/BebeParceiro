@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Domains\Benefited\Actions;
 
+use App\Domains\Benefited\CQRS\StoreBenefitedCommand;
 use App\Domains\Benefited\Logic\BenefitedLogic;
+use Exception;
 use Illuminate\Http\Request;
 
 /**
@@ -32,6 +34,14 @@ class StoreBenefitedAction
 	 * @return void
 	 */
 	public function handle(Request $request, string $token){
+		try{
+			$params = array_merge(['token' => $token], $request->all());
+			$response = $this->benefitedLogic->storeBenefited(StoreBenefitedCommand::fromArray($params));
+		}catch(Exception $e){
+			dd($e);
+			$response = response()->json($e->getMessage());
+		}
 
+		return $response;
 	}
 }

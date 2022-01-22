@@ -12,7 +12,7 @@ use Illuminate\Http\UploadedFile;
  * Class ServiceHandler
  * @package Tests\Helpers
  */
-class ServiceHandler
+class ServiceTestHelper
 {
 	/**
 	 * @return Service
@@ -24,7 +24,7 @@ class ServiceHandler
 			StoreServiceCommand::fromArray([
 				'name' => "Serviço teste",
 				'image'=> new UploadedFile(resource_path('testFiles/image2.jpg'), 'dummyService.jpg', null, null, true),
-				'description' => "Decrição teste"
+				'description' => "Descrição teste"
 			])
 		);
 	}

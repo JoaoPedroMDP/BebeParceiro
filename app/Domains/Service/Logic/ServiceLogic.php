@@ -38,7 +38,7 @@ class ServiceLogic extends LogicsAndRepositories
 			"image" => $command->image,
 			"description" => $command->description,
 			"path" => "service",
-			"fileName" => $command->name
+			"name" => $command->name
 		];
 
 		$image = $this->imageLogic()->storeImage(StoreImageCommand::fromArray($storeImageData));
@@ -101,7 +101,7 @@ class ServiceLogic extends LogicsAndRepositories
 				"image" => $image,
 				"description" => $service->getDescription(),
 				"path" => "service",
-				"fileName" => $service->getName()
+				"name" => $service->getName()
 			])
 		);
 		$service->image()->save($newImage);

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Domains\Core;
 
+use App\Domains\Address\Logic\AddressLogic;
+use App\Domains\Address\Repository\AddressRepository;
 use App\Domains\Appointment\Logic\AppointmentLogic;
 use App\Domains\Appointment\Repository\AppointmentRepository;
 use App\Domains\Benefited\Logic\BenefitedLogic;
@@ -198,7 +200,7 @@ class LogicsAndRepositories
 	public $benefitedLogic;
 
 	/**
-	 * @var AppointmentRepository
+	 * @var BenefitedRepository
 	 */
 	public $benefitedRepository;
 
@@ -224,5 +226,42 @@ class LogicsAndRepositories
 		}
 
 		return $this->benefitedRepository;
+	}
+
+
+
+
+	/**
+	 * @var AddressLogic
+	 */
+	public $addressLogic;
+
+	/**
+	 * @var AddressRepository
+	 */
+	public $addressRepository;
+
+	/**
+	 * @return AddressLogic
+	 */
+	public function addressLogic(): AddressLogic
+	{
+		if($this->addressLogic == null){
+			$this->addressLogic = new AddressLogic();
+		}
+
+		return $this->addressLogic;
+	}
+
+	/**
+	 * @return AddressRepository
+	 */
+	public function addressRepository(): AddressRepository
+	{
+		if($this->addressRepository == null){
+			$this->addressRepository = new AddressRepository();
+		}
+
+		return $this->addressRepository;
 	}
 }

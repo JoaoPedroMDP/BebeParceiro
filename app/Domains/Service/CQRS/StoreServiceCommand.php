@@ -18,13 +18,13 @@ class StoreServiceCommand extends CommandQuery
 
 	const FIELDS = [
 		'name' => [
-			'rules' => ['string']
+			'rules' => ['required', 'string']
 		],
 		'image' => [
-			'rules' => ['uploadedFile']
+			'rules' => ['required', 'uploadedFile']
 		],
 		'description' => [
-			'rules' => ['string']
+			'rules' => ['required', 'string']
 		]
 	];
 
@@ -47,14 +47,12 @@ class StoreServiceCommand extends CommandQuery
 	 * @param string $name
 	 * @param UploadedFile $image
 	 * @param string $description
-	 * @param array $fields
 	 */
-	public function __construct(string $name, UploadedFile $image, string $description, array $fields)
+	public function __construct(string $name, UploadedFile $image, string $description)
 	{
 		$this->name = $name;
 		$this->image = $image;
 		$this->description = $description;
-		$this->fields = $fields;
 	}
 
 	/**
@@ -68,8 +66,7 @@ class StoreServiceCommand extends CommandQuery
 		return new self(
 			$data['name'],
 			$data['image'],
-			$data['description'],
-			array_keys(self::FIELDS)
+			$data['description']
 		);
 	}
 }

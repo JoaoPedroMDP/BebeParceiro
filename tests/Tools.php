@@ -6,6 +6,7 @@ namespace Tests;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Testing\TestResponse;
 
 /**
@@ -14,6 +15,15 @@ use Illuminate\Testing\TestResponse;
  */
 class Tools extends TestCase
 {
+	const TEST_IMAGES = [
+		'testFiles/image1.jpg',
+		'testFiles/image2.jpg',
+		'testFiles/image3.jpg',
+		'testFiles/image4.jpg',
+		'testFiles/image5.jpg',
+		'testFiles/image6.jpg',
+	];
+
 	/**
 	 * Visit the given URI with a POST request.
 	 * @param string $uri
@@ -131,5 +141,15 @@ class Tools extends TestCase
 			error_log($response->json());
 			throw $e;
 		}
+	}
+
+	/**
+	 * @param int $fileIndex
+	 * @param string $name
+	 * @return UploadedFile
+	 */
+	public function getUploadedFile(int $fileIndex, string $name): UploadedFile
+	{
+		return new UploadedFile(resource_path(self::TEST_IMAGES[$fileIndex]), $name.'.jpg', null, null, true);
 	}
 }

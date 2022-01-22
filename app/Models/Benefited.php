@@ -15,6 +15,13 @@ class Benefited extends Model
 {
     use HasFactory;
 
+	protected $table = 'beneficiaries';
+
+	protected $fillable = [
+		"birthday", "child_count", "is_pregnant",
+		"marital_status", "familiar_income", "has_disablement"
+	];
+
 	/**
 	 * @return BelongsTo
 	 */

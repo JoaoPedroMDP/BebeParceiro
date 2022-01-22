@@ -14,123 +14,147 @@ class StoreBenefitedCommand extends CommandQuery
 {
 	use Validates;
 
-	const BENEFITED_FIELDS = [
-		'name', 'surname', 'childCount', 'birthday',
-		'isPregnant', 'maritalStatus', 'email', 'telephone',
-		'familiarIncome', 'socialBenefits', 'hasDisablement'
-	];
-	const ADDRESS_FIELDS = [
-		'street', 'houseNumber', 'cep',
-		'city', 'complement', 'referencePoint'
-	];
-	const CHILD_FIELDS = [
-		'childName', 'childSurname', 'childSex',
-		'childBirthday', 'measurements'
-	];
-	const PREGNANCY_FIELDS = [
-		'sex', 'riskyPregnancy', 'fetusName',
-		'birthdayForecast', 'weightForecast'
-	];
-	// A declaração das outras variáveis está no final da classe
+	const FIELDS = [
+		'token' => [
+			'rules' => ['required', 'string']
+		],
+		'childCount' => [
+			'rules' => ['required', 'integer']
+		],
+		'birthday' => [
+			'rules' => ['required', 'string']
+		],
+		'isPregnant' => [
+			'rules' => ['required', 'boolean']
+		],
+		'maritalStatus' => [
+			'rules' => ['required', 'string']
+		],
+		'familiarIncome' => [
+			'rules' => ['required', 'float']
+		],
+		'socialBenefits' => [
+			'rules' => ['required', 'array']
+		],
+		'hasDisablement' => [
+			'rules' => ['required', 'boolean']
+		],
 
+		'user' => [
+			'rules' => ['required', 'array']
+		],
+		'address' => [
+			'rules' => ['required', 'array']
+		],
+		'child' => [
+			'rules' => ['nullable', 'array']
+		],
+		'pregnancy' => [
+			'rules' => ['nullable', 'array']
+		],
+//		'childName' => [
+//			'rules' => ['nullable', 'string']
+//		],
+//		'childSurname' => [
+//			'rules' => ['nullable', 'string']
+//		],
+//		'childSex' => [
+//			'rules' => ['nullable', 'string']
+//		],
+//		'childBirthday' => [
+//			'rules' => ['nullable', 'string']
+//		],
+//		'childMeasurements' => [
+//			'rules' => ['nullable', 'array']
+//		],
+//
+//		'fetusSex' => [
+//			'rules' => ['nullable', 'string']
+//		],
+//		'riskyPregnancy' => [
+//			'rules' => ['nullable', 'boolean']
+//		],
+//		'fetusName' => [
+//			'rules' => ['nullable', 'string']
+//		],
+//		'fetusBirthdayForecast' => [
+//			'rules' => ['nullable', 'string']
+//		],
+//		'fetusWeightForecast' => [
+//			'rules' => ['nullable', 'float']
+//		]
+	];
+
+
+	// A declaração das outras variáveis e o construtor estão no final da classe
+	// Era muita coisa
 	/**
-	 * @param string $name
-	 * @param string $surname
+	 * @param string $token
 	 * @param int $childCount
 	 * @param string $birthday
 	 * @param bool $isPregnant
 	 * @param string $maritalStatus
-	 * @param string $email
-	 * @param string $telephone
 	 * @param float $familiarIncome
 	 * @param array $socialBenefits
 	 * @param bool $hasDisablement
-	 * @param string $street
-	 * @param string $houseNumber
-	 * @param int $cep
-	 * @param string $city
-	 * @param string $complement
-	 * @param string $referencePoint
-	 * @param string|null $sex
-	 * @param bool|null $riskyPregnancy
-	 * @param string|null $fetusName
-	 * @param string|null $birthdayForecast
-	 * @param float|null $weightForecast
-	 * @param string|null $childName
-	 * @param string|null $childSurname
-	 * @param string|null $childSex
-	 * @param string|null $childBirthday
-	 * @param array|null $measurements
-	 * misericórdia é muita coisa
+	 * @param array $user
+	 * @param array $address
+	 * @param array $child
+	 * @param array $pregnancy
 	 */
-	public function __construct(
-		string $name, string $surname, int $childCount, string $birthday,
-		bool $isPregnant, string $maritalStatus, string $email, string $telephone,
-		float $familiarIncome, array $socialBenefits, bool $hasDisablement, string $street,
-		string $houseNumber, int $cep, string $city, string $complement,
-		string $referencePoint, ?string $sex, ?bool $riskyPregnancy, ?string $fetusName,
-		?string $birthdayForecast, ?float $weightForecast, ?string $childName, ?string $childSurname,
-		?string $childSex, ?string $childBirthday, ?array $measurements)
+	public function __construct(string $token, int $childCount, string $birthday, bool $isPregnant, string $maritalStatus, float $familiarIncome, array $socialBenefits, bool $hasDisablement,
+	                            array  $user, array $address, array $child, array $pregnancy)
 	{
-		$this->name = $name;
-		$this->surname = $surname;
+		$this->token = $token;
 		$this->childCount = $childCount;
 		$this->birthday = $birthday;
 		$this->isPregnant = $isPregnant;
 		$this->maritalStatus = $maritalStatus;
-		$this->email = $email;
-		$this->telephone = $telephone;
 		$this->familiarIncome = $familiarIncome;
 		$this->socialBenefits = $socialBenefits;
 		$this->hasDisablement = $hasDisablement;
-		$this->street = $street;
-		$this->houseNumber = $houseNumber;
-		$this->cep = $cep;
-		$this->city = $city;
-		$this->complement = $complement;
-		$this->referencePoint = $referencePoint;
-		$this->sex = $sex;
-		$this->riskyPregnancy = $riskyPregnancy;
-		$this->fetusName = $fetusName;
-		$this->birthdayForecast = $birthdayForecast;
-		$this->weightForecast = $weightForecast;
-		$this->childName = $childName;
-		$this->childSurname = $childSurname;
-		$this->childSex = $childSex;
-		$this->childBirthday = $childBirthday;
-		$this->measurements = $measurements;
+		$this->user = $user;
+		$this->address = $address;
+		$this->child = $child;
+		$this->pregnancy = $pregnancy;
 	}
+
 
 	/**
 	 * @param array $data
-	 * @return void
+	 * @return StoreBenefitedCommand
 	 */
-	public static function fromArray(array $data){
-		$mandatoryFields = array_merge(self::BENEFITED_FIELDS,self::ADDRESS_FIELDS);
-		$allFields = array_merge($mandatoryFields, self::CHILD_FIELDS, self::PREGNANCY_FIELDS);
-		self::validateBenefitedFields($data);
-		self::keysExists($data, $mandatoryFields);
-	}
-
-	/**
-	 * @param array $data
-	 * @return void
-	 */
-	private static function validateBenefitedFields(array $data)
+	public static function fromArray(array $data): StoreBenefitedCommand
 	{
-		$stringFields = ['name', 'surname', 'birthday', 'maritalStatus', 'email', 'telephone'];
-		foreach($stringFields as $field){
-			self::isString($data, $field);
-		}
-		self::isInteger($data, 'childCount');
+		self::formatBenefitedFields($data);
+		self::validate($data, self::FIELDS);
+		return new self(
+			$data['token'],
+			$data['childCount'],
+			$data['birthday'],
+			$data['isPregnant'],
+			$data['maritalStatus'],
+            $data['familiarIncome'],
+			$data['socialBenefits'],
+			$data['hasDisablement'],
 
-		$boolFields = ['isPregnant', 'hasDisablement'];
-		foreach($boolFields as $field){
-			self::isBool($data, $field);
-		}
+			$data['user'],
+			$data['address'] ?? [],
+			$data['child'] ?? [],
+			$data['pregnancy'] ?? []
+		);
+	}
 
-		self::isFloat($data, 'familiarIncome');
-		self::isArray($data, 'socialBenefits');
+	/**
+	 * @param array $data
+	 * @return void
+	 */
+	private static function formatBenefitedFields(array &$data)
+	{
+		$data['childCount'] = intval($data['childCount']);
+		$data['isPregnant'] = boolval($data['isPregnant']);
+		$data['familiarIncome'] = floatval($data['familiarIncome']);
+		$data['hasDisablement'] = boolval($data['hasDisablement']);
 	}
 
 	/**
@@ -138,68 +162,33 @@ class StoreBenefitedCommand extends CommandQuery
 	 */
 	public function getBenefitedData(): array
 	{
-		$fields = [];
-		foreach(self::BENEFITED_FIELDS as $field){
-			$fields[$field] = $this->$field;
-		}
-
-		return $fields;
+		return [
+			'child_count' => $this->childCount,
+			'birthday' => $this->birthday,
+			'is_pregnant' => $this->isPregnant,
+			'marital_status' => $this->maritalStatus,
+            'familiar_income' => $this->familiarIncome,
+			'social_benefits' => $this->socialBenefits,
+			'has_disablement' => $this->hasDisablement,
+		];
 	}
 
 	/**
-	 * @return array
+	 * @param array $data
+	 * @return void
 	 */
-	public function getAddressData(): array
-	{
-		$fields = [];
-		foreach(self::ADDRESS_FIELDS as $field){
-			$fields[$field] = $this->$field;
-		}
-
-		return $fields;
+	private static function formatPregnancyFields(array &$data){
+		$data['riskyPregnancy'] = boolval($data['riskyPregnancy']);
+		$data['weightForecast'] = floatval($data['weightForecast']);
 	}
-
-	/**
-	 * @return array
-	 */
-	public function getPregnancyData(): array
-	{
-		$fields = [];
-		foreach(self::PREGNANCY_FIELDS as $field){
-			$fields[$field] = $this->$field;
-		}
-
-		return $fields;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getChildData(): array
-	{
-		$fields = [];
-		foreach(self::CHILD_FIELDS as $field){
-			$fields[$field] = $this->$field;
-		}
-
-		return $fields;
-	}
-
-
-	// Deixei aqui embaixo pois eram muitas variáveis e estava atrapalhando no desenvolvimento
-	// Dados da mãe
-	/**
-	 * @var string
-	 */
-	public $name;
 
 	/**
 	 * @var string
 	 */
-	public $surname;
+	public $token;
 
 	/**
-	 * @var integer
+	 * @var int
 	 */
 	public $childCount;
 
@@ -219,16 +208,6 @@ class StoreBenefitedCommand extends CommandQuery
 	public $maritalStatus;
 
 	/**
-	 * @var string
-	 */
-	public $email;
-
-	/**
-	 * @var string
-	 */
-	public $telephone;
-
-	/**
 	 * @var float
 	 */
 	public $familiarIncome;
@@ -243,91 +222,28 @@ class StoreBenefitedCommand extends CommandQuery
 	 */
 	public $hasDisablement;
 
-	// Dados de endereço
-
+	// USUÁRIO
 	/**
-	 * @var string
+	 * @var array
 	 */
-	public $street;
+	public $user;
 
+    // ENDEREÇO
 	/**
-	 * Precisa ser string pois pode conter letras, como 735A
-	 * @var string
+	 * @var array
 	 */
-	public $houseNumber;
+	public $address;
 
+	// CRIANÇA
 	/**
-	 * @var integer
+	 * @var array
 	 */
-	public $cep;
+	public $child;
 
+	// GRAVIDEZ
 	/**
-	 * @var string
+	 * @var array
 	 */
-	public $city;
+	public $pregnancy;
 
-	/**
-	 * @var string
-	 */
-	public $complement;
-
-	/**
-	 * @var string
-	 */
-	public $referencePoint;
-
-	// Dados da gestação
-
-	/**
-	 * @var string|null
-	 */
-	public $sex;
-
-	/**
-	 * @var bool|null
-	 */
-	public $riskyPregnancy;
-
-	/**
-	 * @var string|null
-	 */
-	public $fetusName; // Eu sei que é um nome estranho mas é em prol da organização
-
-	/**
-	 * @var string|null
-	 */
-	public $birthdayForecast;
-
-	/**
-	 * @var float|null
-	 */
-	public $weightForecast;
-
-	// Dados do recém nascido
-
-	/**
-	 * @var string|null
-	 */
-	public $childName;
-
-	/**
-	 * @var string|null
-	 */
-	public $childSurname;
-
-	/**
-	 * @var string|null
-	 */
-	public $childSex;
-
-	/**
-	 * @var string|null
-	 */
-	public $childBirthday;
-
-	// Medidas
-	/**
-	 * @var array|null
-	 */
-	public $measurements;
 }

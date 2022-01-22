@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Domains\Appointment\Actions\IndexAppointmentsAction;
+use App\Domains\Benefited\Actions\StoreBenefitedAction;
 use App\Domains\Service\Actions\DeleteServiceAction;
 use App\Domains\Service\Actions\IndexServicesAction;
 use App\Domains\Service\Actions\StoreServiceAction;
@@ -32,6 +33,8 @@ Route::get('token/check/{token}', [CheckTokenAction::class, 'handle']);
 // SERVICE
 Route::get('service', [IndexServicesAction::class, 'handle']);
 
+// BENEFITED
+Route::post('benefited/{token}', [StoreBenefitedAction::class, 'handle']);
 Route::middleware(['auth:sanctum'])->group(function() {
 	// APPOINTMENTS
 	Route::get('appointment', [IndexAppointmentsAction::class, 'handle']);

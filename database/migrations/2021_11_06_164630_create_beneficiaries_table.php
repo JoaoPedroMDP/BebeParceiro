@@ -19,12 +19,12 @@ class CreateBeneficiariesTable extends Migration
     {
         Schema::create('beneficiaries', function (Blueprint $table) {
             $table->id();
-			$table->string("birth");
+			$table->string("birthday");
 			$table->integer("child_count");
 			$table->boolean("is_pregnant");
 			$table->string("marital_status");
 			$table->float("familiar_income");
-			$table->boolean("disablement");
+			$table->boolean("has_disablement");
 			$table->boolean("approved");
 			$table->foreignId("user_id")->constrained();
 			$table->timestamps();

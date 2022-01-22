@@ -86,10 +86,12 @@ class TokenLogic extends LogicsAndRepositories
 	}
 
 	/**
-	 * @param Token $token
+	 * @param string $token
 	 * @return void
+	 * @throws TokenNotFound
 	 */
-	public function useToken(Token $token){
+	public function useToken(string $token){
+		$token = $this->getFirstTokenWhere('token', $token);
 		$this->tokenRepository()->useToken($token);
 	}
 

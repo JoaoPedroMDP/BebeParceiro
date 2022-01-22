@@ -34,7 +34,7 @@ class ImageLogic extends LogicsAndRepositories
 	{
 		$fileExtension = '.' . $file->extension();
 
-		return str_replace(' ', '_', $data['fileName']) . $fileExtension;
+		return str_replace(' ', '_', $data['name']) . $fileExtension;
 	}
 
 	/**

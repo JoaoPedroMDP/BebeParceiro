@@ -6,7 +6,7 @@ namespace Tests\Feature;
 use App\Models\Service;
 use Exception;
 use Illuminate\Http\UploadedFile;
-use Tests\Helpers\ServiceHandler;
+use Tests\Helpers\ServiceTestHelper;
 use Tests\Tools;
 
 /**
@@ -56,7 +56,7 @@ class ServiceTest extends Tools
 			[
 				"name" => "Serviço 1",
 				"description" => "Teste de do serviço 1",
-				"image" => new UploadedFile(resource_path('testFiles/image1.jpg'), 'storeService.jpg', null, null, true),
+				"image" => $this->getUploadedFile(0, 'storeService'),
 			]);
 
 		$response->assertOk();
@@ -85,7 +85,7 @@ class ServiceTest extends Tools
 			[
 				"name" => $name,
 				"description" => $description,
-				"image" => new UploadedFile(resource_path('testFiles/image2.jpg'), 'storeService.jpg', null, null, true),
+				"image" => $this->getUploadedFile(0, 'updateService')
 			]);
 
 		$response->assertJsonFragment([
@@ -108,7 +108,7 @@ class ServiceTest extends Tools
 		$serviceToDelete = $this->getValidServiceId();
 		// Caso não tenha nenhum serviço, crio um só pra deletar kkkkk
 		if($serviceToDelete == 0){
-			$serviceHandler = new ServiceHandler();
+			$serviceHandler = new ServiceTestHelper();
 			$serviceToDelete = $serviceHandler->createDummyService()->id;
 			$amountOfServicesBefore = 1;
 		}

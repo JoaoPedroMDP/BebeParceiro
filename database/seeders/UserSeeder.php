@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
 				$newUser = new User;
 				$newUser->name = $roleName;
 				$newUser->surname = "da Silva";
-				$newUser->username = $this->trimRoleName($roleName) . "@email";
+				$newUser->login = $this->trimRoleName($roleName) . "@email";
 				$newUser->password = bcrypt("secret");
 				$newUser->save();
 				$newUser->assignRole($roleName);

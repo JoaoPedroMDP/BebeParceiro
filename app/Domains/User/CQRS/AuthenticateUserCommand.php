@@ -15,18 +15,18 @@ class AuthenticateUserCommand extends CommandQuery
 {
 	use Validates;
 	const FIELDS = [
-		'username' => [
-			'rules' => ['string']
+		'login' => [
+			'rules' => ['required', 'string']
 		],
 		'password' => [
-			'rules' => ['string']
+			'rules' => ['required', 'string']
 		]
 	];
 
 	/**
 	 * @var string
 	 */
-	public $username;
+	public $login;
 
 	/**
 	 * @var string
@@ -34,15 +34,13 @@ class AuthenticateUserCommand extends CommandQuery
 	public $password;
 
 	/**
-	 * @param string $username
+	 * @param string $login
 	 * @param string $password
-	 * @param array $fields
 	 */
-	public function __construct(string $username, string $password, array $fields)
+	public function __construct(string $login, string $password)
 	{
-		$this->username = $username;
+		$this->login = $login;
 		$this->password = $password;
-		$this->fields = $fields;
 	}
 
 	/**
@@ -54,9 +52,8 @@ class AuthenticateUserCommand extends CommandQuery
 		self::validate($data, self::FIELDS);
 
 		return new self(
-			$data['username'],
-			$data['password'],
-			array_keys(self::FIELDS)
+			$data['login'],
+			$data['password']
 		);
 	}
 }

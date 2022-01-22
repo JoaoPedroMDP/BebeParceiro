@@ -18,16 +18,16 @@ class UpdateServiceCommand extends CommandQuery
 
 	const FIELDS = [
 		'id' => [
-			'rules' => ['integer']
+			'rules' => ['required', 'integer']
 		],
 		'name' => [
-			'rules' => ['string']
+			'rules' => ['required', 'string']
 		],
 		'image' => [
-			'rules' => ['nullable', 'uploadedFile']
+			'rules' => ['required', 'nullable', 'uploadedFile']
 		],
 		'description' => [
-			'rules' => ['string']
+			'rules' => ['required', 'string']
 		]
 	];
 
@@ -56,15 +56,13 @@ class UpdateServiceCommand extends CommandQuery
 	 * @param string $name
 	 * @param UploadedFile|null $image
 	 * @param string $description
-	 * @param array $fields
 	 */
-	public function __construct(int $id, string $name, ?UploadedFile $image, string $description, array $fields)
+	public function __construct(int $id, string $name, ?UploadedFile $image, string $description)
 	{
 		$this->id = $id;
 		$this->name = $name;
 		$this->image = $image;
 		$this->description = $description;
-		$this->fields = $fields;
 	}
 
 	/**
@@ -73,15 +71,13 @@ class UpdateServiceCommand extends CommandQuery
 	 */
 	public static function fromArray(array $data): UpdateServiceCommand
 	{
-		$fields = ['name', 'description', 'id'];
 		self::validate($data, self::FIELDS);
 
 		return new self(
 			$data['id'],
 			$data['name'],
 			$data['image'] ?? null,
-			$data['description'],
-			$fields
+			$data['description']
 		);
 	}
 

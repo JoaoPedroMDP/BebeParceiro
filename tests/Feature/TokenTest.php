@@ -14,11 +14,10 @@ use Tests\Tools;
 class TokenTest extends Tools
 {
 	/**
-	 * Testa se apenas os usuários com permissão de gerar tokens podem fazê-lo
 	 * @return void
 	 * @throws Exception
 	 */
-    public function test_token_generation_permissions()
+    public function test_token_generation()
     {
 		$amount = 5;
 		$actor = $this->getActor("Doula");

@@ -5,7 +5,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Exception;
-use Tests\Helpers\AppointmentHandler;
+use Tests\Helpers\AppointmentTestHelper;
 use Tests\Tools;
 use Webmozart\Assert\Assert;
 
@@ -46,7 +46,7 @@ class AppointmentTest extends Tools
 	 */
 	private function withCreatedAppointment(User $actor)
 	{
-		$appointmentHandler = new AppointmentHandler();
+		$appointmentHandler = new AppointmentTestHelper();
 		$appointment = $appointmentHandler->createDummyAppointment($actor);
 		//Cria um agendamento para garantir que pelo menos 1 terá
 

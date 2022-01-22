@@ -18,7 +18,7 @@ class CheckTokenQuery extends CommandQuery
 
 	const FIELDS = [
 		'token' => [
-			'rules' => ['string']
+			'rules' => ['required', 'string']
 		]
 	];
 
@@ -29,12 +29,10 @@ class CheckTokenQuery extends CommandQuery
 
 	/**
 	 * @param string $token
-	 * @param array $fields
 	 */
-	public function __construct(string $token, array $fields)
+	public function __construct(string $token)
 	{
 		$this->token = $token;
-		$this->fields = $fields;
 	}
 
 	/**
@@ -47,8 +45,7 @@ class CheckTokenQuery extends CommandQuery
 		Assert::regex($data['token'], Token::REGEX, 'Formato de código inválido');
 
 		return new self(
-			$data['token'],
-			array_keys(self::FIELDS)
+			$data['token']
 		);
 	}
 }

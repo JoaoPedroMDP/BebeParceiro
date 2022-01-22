@@ -16,16 +16,16 @@ class StoreImageCommand extends CommandQuery
 	use Validates;
 	const FIELDS = [
 		'image' => [
-			'rules' => ['uploadedFile']
+			'rules' => ['required', 'uploadedFile']
 		],
 		'description' => [
-			'rules' => ['string']
+			'rules' => ['required', 'string']
 		],
 		'path' => [
-			'rules' => ['string']
+			'rules' => ['required', 'string']
 		],
-		'fileName' => [
-			'rules' => ['string']
+		'name' => [
+			'rules' => ['required', 'string']
 		],
 
 	];
@@ -47,22 +47,20 @@ class StoreImageCommand extends CommandQuery
 	/**
 	 * @var string
 	 */
-	public $fileName;
+	public $name;
 
 	/**
 	 * @param UploadedFile $image
 	 * @param string $description
-	 * @param array $fields
 	 * @param string $path
-	 * @param string $fileName
+	 * @param string $name
 	 */
-	public function __construct(UploadedFile $image, string $description, string $path, string $fileName, array $fields)
+	public function __construct(UploadedFile $image, string $description, string $path, string $name)
 	{
 		$this->image = $image;
 		$this->description = $description;
-		$this->fields = $fields;
 		$this->path = $path;
-		$this->fileName = $fileName;
+		$this->name = $name;
 	}
 
 	/**
@@ -77,8 +75,7 @@ class StoreImageCommand extends CommandQuery
 			$data['image'],
 			$data['description'],
 			$data['path'],
-			$data['fileName'],
-			array_keys(self::FIELDS)
+			$data['name']
 		);
 	}
 }

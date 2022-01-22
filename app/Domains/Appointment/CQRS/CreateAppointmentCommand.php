@@ -49,14 +49,12 @@ class CreateAppointmentCommand extends CommandQuery
 	 * @param string $name
 	 * @param string $datetime
 	 * @param int $serviceId
-	 * @param array $fields
 	 */
-	public function __construct(string $name, string $datetime, int $serviceId, array $fields)
+	public function __construct(string $name, string $datetime, int $serviceId)
 	{
 		$this->name = $name;
 		$this->datetime = $datetime;
 		$this->serviceId = $serviceId;
-		$this->fields = $fields;
 	}
 
 	/**
@@ -70,8 +68,7 @@ class CreateAppointmentCommand extends CommandQuery
 		return new self(
 			$data['name'],
 			$data['datetime'],
-			intval($data['serviceId']),
-			array_keys(self::FIELDS)
+			intval($data['serviceId'])
 		);
 	}
 }

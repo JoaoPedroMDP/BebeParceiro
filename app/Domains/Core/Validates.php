@@ -23,7 +23,7 @@ trait Validates
 	 */
 	public function keysExists(array $data, array $keys){
 		foreach($keys as $key){
-			Assert::keyExists($data, $key, "$key é obrigatório");
+			self::keyExists($data, $key);
 		}
 	}
 
@@ -34,24 +34,6 @@ trait Validates
 	 */
 	public function keyExists(array $data, string $key){
 		Assert::keyExists($data, $key, "Campo '$key' é obrigatório");
-	}
-
-	/**
-	 * @param array $data
-	 * @param string $key
-	 * @return void
-	 */
-	public function isString(array $data, string $key){
-		Assert::string($data[$key], "Campo '$key' precisa ser string");
-	}
-
-	/**
-	 * @param array $data
-	 * @param string $key
-	 * @return void
-	 */
-	public function isBool(array $data, string $key){
-		Assert::boolean($data[$key], "Campo '$key' precisa ser booleano");
 	}
 
 	/**
@@ -78,7 +60,7 @@ trait Validates
 	 * @return void
 	 */
 	public function validateBoolean(array $data, string $field){
-		Assert::isArray($data[$field], "Campo '$field' precisa ser um array");
+		Assert::boolean($data[$field], "Campo '$field' precisa ser um booleano");
 	}
 
 	/**
@@ -138,27 +120,29 @@ trait Validates
 
 	/**
 	 * @param array $data
+	 * @param string $field
+	 * @return void
+	 */
+	public static function validateRequired(array $data, string $field){
+		self::keyExists($data, $field);
+	}
+
+	/**
+	 * @param array $data
+	 * @param string $field
+	 * @return void
+	 */
+	public static function validateNullable(array $data, string $field){
+		return;
+	}
+
+	/**
+	 * @param array $data
 	 * @param array $fields
 	 * @return void
 	 */
 	public function validate(array $data, array $fields){
 		foreach($fields as $field => $config){
-
-			// Se o campo for obrigatório
-			if(!in_array('nullable', $config['rules'])){
-				self::keyExists($data, $field);
-			}else{
-				// Se tiver a regra nullable, não obrigo a existência e removo essa regra da lista dando unset no seu index
-				unset(
-					$config['rules'][
-						array_search(
-							'nullable',
-							$config['rules']
-						)
-					]
-				);
-			}
-
 			// Se o campo existir
 			if(array_key_exists($field, $data)){
 				foreach($config['rules'] as $rule){

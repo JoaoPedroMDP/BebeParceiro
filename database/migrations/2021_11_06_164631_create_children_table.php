@@ -25,7 +25,7 @@ class CreateChildrenTable extends Migration
 						"male", "female"
 					]
 				);
-				$table->string("birth");
+				$table->string("birthday");
 				$table->foreignId("beneficiary_id")->constrained("beneficiaries");
             $table->timestamps();
         });

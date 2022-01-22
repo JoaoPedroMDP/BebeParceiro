@@ -21,4 +21,17 @@ class UserRepository extends LogicsAndRepositories
 	{
 		return User::where($field, '=', $value)->first();
 	}
+
+	/**
+	 * @param array $data
+	 * @return User
+	 */
+	public function storeUser(array $data): User
+	{
+		$newUser = new User;
+		$newUser->fill($data);
+		$newUser->password = bcrypt($data['password']);
+		$newUser->save();
+		return $newUser;
+	}
 }

@@ -20,8 +20,10 @@ class ImageLogic extends LogicsAndRepositories
 	 */
 	public function storeImage(StoreImageCommand $command): Image
 	{
-		$command->path = $command->image->storeAs($command->path, $this->generateFileName($command->image, $command->toArray()));
-
+		$fileName = $this->generateFileName($command->image, $command->toArray());
+		$command->image->storeAs('public/' . $command->path, $fileName);
+		$command->path = $command->path . '/' . $fileName;
+		
 		return $this->imageRepository()->storeImage($command->toArray());
 	}
 

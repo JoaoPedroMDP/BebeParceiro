@@ -24,9 +24,6 @@ class StoreBenefitedCommand extends CommandQuery
 		'birthday' => [
 			'rules' => ['required', 'string']
 		],
-		'isPregnant' => [
-			'rules' => ['required', 'boolean']
-		],
 		'maritalStatus' => [
 			'rules' => ['required', 'string']
 		],
@@ -100,7 +97,7 @@ class StoreBenefitedCommand extends CommandQuery
 			$data['token'],
 			$data['childCount'],
 			$data['birthday'],
-			$data['isPregnant'],
+			array_key_exists('pregnancy', $data) ,
 			$data['maritalStatus'],
             $data['familiarIncome'],
 			$data['socialBenefits'],

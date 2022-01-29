@@ -29,35 +29,29 @@ class BenefitedTest extends Tools
 		$this->configureMandatoryFields();
 	    $token = $this->getValidToken();
 	    $response = $this->post("/benefited/$token", $this->standardValuesForMandatoryFields);
-		
+
         $response->assertStatus(201);
     }
 
-//	/**
-//	 * E lá vamos nós 2...
-//	 *
-//	 * @return void
-//	 * @throws Exception
-//	 */
-//	public function test_store_benefited_pregnancy_case()
-//	{
-//		$token = (new TokenTestHelper)->getValidToken();
-//
-//		$params = [
-//			'name', 'surname', 'childCount', 'birthday',
-//			'isPregnant', 'maritalStatus', 'email', 'telephone',
-//			'familiarIncome', 'socialBenefits', 'hasDisablement',
-//
-//			'street', 'houseNumber', 'cep',
-//			'city', 'complement', 'referencePoint',
-//
-//			'sex', 'riskyPregnancy', 'fetusName',
-//			'birthdayForecast', 'weightForecast'
-//		];
-//		$response = $this->post('/');
-//
-//		$response->assertStatus(200);
-//	}
+	/**
+	 * E lá vamos nós 2...
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function test_store_benefited_pregnancy_case()
+	{
+		$this->configureMandatoryFields();
+		$token = $this->getValidToken();
+		$params = array_merge(
+			$this->standardValuesForMandatoryFields,
+			['pregnancy' => ['riskyPregnancy' => true]]
+		);
+		$response = $this->post("/benefited/$token", $params);
+
+		$response->assertStatus(201);
+	}
+
 	/**
 	 * @return void
 	 */

@@ -29,8 +29,8 @@ class BenefitedTest extends Tools
 		$this->configureMandatoryFields();
 	    $token = $this->getValidToken();
 	    $response = $this->post("/benefited/$token", $this->standardValuesForMandatoryFields);
-
-        $response->assertStatus(200);
+		
+        $response->assertStatus(201);
     }
 
 //	/**

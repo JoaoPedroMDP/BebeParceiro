@@ -34,18 +34,21 @@ class ServiceLogic extends LogicsAndRepositories
 	 */
 	public function storeService(StoreServiceCommand $command): Service
 	{
-		$storeImageData = [
-			"image" => $command->image,
-			"description" => $command->description,
-			"path" => "service",
-			"name" => $command->name
-		];
-
-		$image = $this->imageLogic()->storeImage(StoreImageCommand::fromArray($storeImageData));
 		$service = $this->serviceRepository()->storeService($command->toArray());
-		$service->image()->save($image);
-		$service->save();
 
+		if($command->image != null){
+			$storeImageData = [
+				"image" => $command->image,
+				"description" => $command->description,
+				"path" => "service",
+				"name" => $command->name
+			];
+
+			$image = $this->imageLogic()->storeImage(StoreImageCommand::fromArray($storeImageData));
+			$service->image()->save($image);
+		}
+
+		$service->save();
 		return $service;
 	}
 

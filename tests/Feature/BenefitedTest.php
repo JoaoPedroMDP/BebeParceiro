@@ -4,11 +4,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use Exception;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\UploadedFile;
 use Tests\Helpers\TokenTestHelper;
-use Tests\TestCase;
 use Tests\Tools;
 
 /**
@@ -17,26 +13,10 @@ use Tests\Tools;
  */
 class BenefitedTest extends Tools
 {
-	const STANDARD_VALUES_FOR_MANDATORY_FIELDS = [
-		'name' => 'Mãe da silva',
-		'surname' => 'Sauro',
-		'childCount' => 3, // Lembrando que esse número já inclui o filho da gravidez se for o caso
-		'birthday' => '13/03/1900',
-//		'isPregnant' => , Esse campo depende do caso de teste
-		'maritalStatus' => 'married',
-		'email' => 'mae.silvaSauro@email.com',
-		'telephone' => '44987562869',
-		'familiarIncome' => 1000.0,
-		'socialBenefits' => ['Minha casa minha vida', 'Cadastro de emprego', 'Cartão alimentação'],
-		'hasDisablement' => false,
-
-		'street' => 'Avenida Humaitá',
-		'houseNumber' => 315,
-		'cep' => 87014200,
-		'city' => 'Maringá',
-		'complement' => 'Apartamento 48',
-		'referencePoint' => 'Ao lado da imobiliária Abrão',
-	];
+	/**
+	 * @var array
+	 */
+	private $standardValuesForMandatoryFields;
 
 	/**
 	 * E lá vamos nós...
@@ -46,22 +26,9 @@ class BenefitedTest extends Tools
 	 */
     public function test_store_benefited_child_case()
     {
-	    $token = (new TokenTestHelper)->getValidToken();
-		$params = array_merge(
-			self::STANDARD_VALUES_FOR_MANDATORY_FIELDS,
-			[
-				'childName' => 'Filho da Silva',
-				'childSurname' => 'Sauro Júnior',
-				'childSex' => 'male',
-				'childBirthday' => '13/09/2021',
-				'childMeasurements' => [
-					$this->getUploadedFile(2, 'childMeasurement1'),
-					$this->getUploadedFile(3, 'childMeasurement2'),
-					$this->getUploadedFile(4, 'childMeasurement3')
-				]
-			]
-		);
-        $response = $this->get('/');
+		$this->configureMandatoryFields();
+	    $token = $this->getValidToken();
+	    $response = $this->post("/benefited/$token", $this->standardValuesForMandatoryFields);
 
         $response->assertStatus(200);
     }
@@ -91,4 +58,49 @@ class BenefitedTest extends Tools
 //
 //		$response->assertStatus(200);
 //	}
+	/**
+	 * @return void
+	 */
+	private function configureMandatoryFields()
+	{
+		$this->standardValuesForMandatoryFields = [
+			'user' => [
+				'name' => 'Mãe da silva',
+				'surname' => 'Sauro',
+				'email' => 'mae.silvaSauro@email.com',
+				'telephone' => '44987562869',
+				'password' => 'secret',
+				'password_confirmation' => 'secret'
+			],
+			'birthday' => '13/03/1900',
+			'isPregnant' => 'false',
+			'maritalStatus' => 'married',
+			'childCount' => 3, // Lembrando que esse número já inclui o filho da gravidez se for o caso
+			'familiarIncome' => 1000.0,
+			'hasDisablement' => false,
+			'socialBenefits' => ['Minha casa minha vida', 'Cadastro de emprego', 'Cartão alimentação'],
+
+			'address' => [
+				'street' => 'Avenida Humaitá',
+				'number' => 315,
+				'complement' => 'Apartamento 48',
+				'reference' => 'Ao lado da imobiliária Abrão',
+				'cep' => 87014200,
+				'city' => 'Maringá'
+			],
+
+			'child' => [
+				'sex' => 'male',
+				'name' => 'criança',
+				'surname' => 'da silva',
+				'birthday' => '13/03/2022',
+				'weight' => '2',
+				'measurements' => [
+					$this->getUploadedFile(2, 'childMeasurement1'),
+					$this->getUploadedFile(3, 'childMeasurement2'),
+					$this->getUploadedFile(4, 'childMeasurement3')
+				]
+			]
+		];
+	}
 }

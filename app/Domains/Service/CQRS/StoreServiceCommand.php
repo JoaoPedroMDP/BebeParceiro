@@ -21,7 +21,7 @@ class StoreServiceCommand extends CommandQuery
 			'rules' => ['required', 'string']
 		],
 		'image' => [
-			'rules' => ['required', 'uploadedFile']
+			'rules' => ['nullable', 'uploadedFile']
 		],
 		'description' => [
 			'rules' => ['required', 'string']
@@ -34,7 +34,7 @@ class StoreServiceCommand extends CommandQuery
 	public $name;
 
 	/**
-	 * @var UploadedFile
+	 * @var UploadedFile|null
 	 */
 	public $image;
 
@@ -45,10 +45,10 @@ class StoreServiceCommand extends CommandQuery
 
 	/**
 	 * @param string $name
-	 * @param UploadedFile $image
+	 * @param UploadedFile|null $image
 	 * @param string $description
 	 */
-	public function __construct(string $name, UploadedFile $image, string $description)
+	public function __construct(string $name, ?UploadedFile $image, string $description)
 	{
 		$this->name = $name;
 		$this->image = $image;
@@ -65,7 +65,7 @@ class StoreServiceCommand extends CommandQuery
 
 		return new self(
 			$data['name'],
-			$data['image'],
+			$data['image'] ?? null,
 			$data['description']
 		);
 	}

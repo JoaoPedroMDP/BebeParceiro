@@ -27,12 +27,12 @@ class BenefitedLogic extends LogicsAndRepositories
 
 	/**
 	 * @param StoreBenefitedCommand $command
-	 * @return void
+	 * @return Benefited
 	 * @throws TokenAlreadyUsed
 	 * @throws TokenNotFound
 	 * @throws LoginAlreadyTaken
 	 */
-	public function storeBenefited(StoreBenefitedCommand $command)
+	public function storeBenefited(StoreBenefitedCommand $command): Benefited
 	{
 		$this->tokenLogic()->checkToken(CheckTokenQuery::fromArray(['token' => $command->token]));
 		$benefitedUser = $this->userLogic()->storeUser(StoreUserCommand::fromArray($command->user));
@@ -49,8 +49,8 @@ class BenefitedLogic extends LogicsAndRepositories
 			$pregnancy = $this->storePregnancy($command->pregnancy, $child);
 		}
 
-//		$this->tokenLogic()->useToken($command->token);
-		dd("chegou aqui amém");
+		$this->tokenLogic()->useToken($command->token);
+		return $benefited;
 	}
 
 	/**

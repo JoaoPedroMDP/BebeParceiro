@@ -152,4 +152,15 @@ class Tools extends TestCase
 	{
 		return new UploadedFile(resource_path(self::TEST_IMAGES[$fileIndex]), $name.'.jpg', null, null, true);
 	}
+
+	/**
+	 * @return string
+	 * @throws Exception
+	 */
+	public function getValidToken(): string
+	{
+		$actor = $this->getActor('Secretario inicial');
+		$response = $this->actingAs($actor)->get('token/generate/1');
+		return $response->json()[0];
+	}
 }

@@ -123,5 +123,6 @@ class StoreAddressCommand extends CommandQuery
 	 */
 	private static function formatAddressFields(array &$data){
 		$data['cep'] = intval($data['cep']);
+		$data['number'] = strval($data['number']);
 	}
 }

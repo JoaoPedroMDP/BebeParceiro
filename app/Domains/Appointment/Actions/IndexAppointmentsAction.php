@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Domains\Appointment\Actions;
 
 use App\Domains\Appointment\Logic\AppointmentLogic;
+use App\Domains\Core\Action;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 /**
  * Class IndexAppointmentsAction
  */
-class IndexAppointmentsAction
+class IndexAppointmentsAction extends Action
 {
 	/**
 	 * @var AppointmentLogic
@@ -30,14 +31,11 @@ class IndexAppointmentsAction
 	public function handle(Request $request): JsonResponse
 	{
 		try{
-			$response = response()->json(
-				$this->appointmentLogic->indexAppointments($request->user()),
-				200
-			);
-		}catch(Exception $exception){
-			$response = response()->json("Não foi possível concluir a requisição IndexAppointment", 500);
+			$data = $this->appointmentLogic->indexAppointments($request->user());
+		}catch(Exception $e){
+			return $this->handleException($e);
 		}
 
-		return $response;
+		return $this->assembleResponse($data, 200);
 	}
 }

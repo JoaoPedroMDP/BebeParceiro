@@ -50,7 +50,7 @@ class ServiceTest extends Tools
 	public function test_store_service()
 	{
 		$actor = $this->getActor("Admin");
-		$amountOfServicesBefore = count($this->get('/service')->json());
+		$amountOfServicesBefore = count($this->get('/service')->json()['data']);
 
 		$response = $this->actingAs($actor)->post('/service',
 			[
@@ -103,7 +103,7 @@ class ServiceTest extends Tools
 	 */
 	public function test_delete_service()
 	{
-		$amountOfServicesBefore = count($this->get('/service')->json());
+		$amountOfServicesBefore = count($this->get('/service')->json()['data']);
 
 		$serviceToDelete = $this->getValidServiceId();
 		// Caso não tenha nenhum serviço, crio um só pra deletar kkkkk

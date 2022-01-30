@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Token\Actions;
 
+use App\Domains\Core\Action;
 use App\Domains\Token\Logic\TokenLogic;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
  * Class IndexTokensAction
  * @package App\Domains\Token\CQRS
  */
-class IndexTokensAction
+class IndexTokensAction extends Action
 {
 	/**
 	 * @var TokenLogic
@@ -34,11 +35,11 @@ class IndexTokensAction
 	public function handle(Request $request): JsonResponse
 	{
 		try{
-			$response = $this->tokenLogic->indexTokens($request->user());
+			$data = $this->tokenLogic->indexTokens($request->user());
 		}catch(Exception $e){
-			$response = "A requisição não pode ser concluída";
+			return $this->handleException($e);
 		}
 
-		return response()->json($response);
+		return $this->assembleResponse($data, 200);
 	}
 }

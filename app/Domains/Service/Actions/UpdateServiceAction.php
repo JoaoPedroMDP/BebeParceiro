@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Service\Actions;
 
+use App\Domains\Core\Action;
 use App\Domains\Service\CQRS\UpdateServiceCommand;
 use App\Domains\Service\Logic\ServiceLogic;
 use Exception;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Log;
  * Class UpdateServiceAction
  * @package App\Domains\Service\Actions
  */
-class UpdateServiceAction
+class UpdateServiceAction extends Action
 {
 	/**
 	 * @var ServiceLogic
@@ -39,17 +40,11 @@ class UpdateServiceAction
 				$request->all()
 			);
 
-			$response = response()->json(
-				$this->serviceLogic->updateService(UpdateServiceCommand::fromArray($data)),
-				200
-			);
-		}catch(Exception $exception){
-//			$response = response()->json("Não foi possível concluir a requisição UpdateService", 500);
-			Log::error($exception->getMessage());
-			Log::error($exception->getTraceAsString());
-			$response = response()->json($exception->getMessage(), 500);
+			$data = $this->serviceLogic->updateService(UpdateServiceCommand::fromArray($data));
+		}catch(Exception $e){
+			return $this->handleException($e);
 		}
 
-		return $response;
+		return $this->assembleResponse($data, 200);
 	}
 }

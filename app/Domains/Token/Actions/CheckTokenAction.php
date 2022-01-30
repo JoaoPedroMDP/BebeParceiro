@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Token\Actions;
 
+use App\Domains\Core\Action;
 use App\Domains\Token\CQRS\CheckTokenQuery;
 use App\Domains\Token\Logic\TokenLogic;
 use Exception;
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
  * Class CheckTokenAction
  * @package App\Domains\Token\Actions
  */
-class CheckTokenAction
+class CheckTokenAction extends Action
 {
 
 	/**
@@ -37,15 +38,12 @@ class CheckTokenAction
 	public function handle(Request $request, $token): JsonResponse
 	{
 		try{
-			$response = response()->json(
-				$this->tokenLogic->checkToken(CheckTokenQuery::fromArray(['token'=>$token]))
-			,200);
+			$data = $this->tokenLogic->checkToken(CheckTokenQuery::fromArray(['token'=>$token]));
 		}catch(Exception $e){
-			$response = response()->json("A requisição não pôde ser concluída", 400);
-			dd($e->getMessage());
+			return $this->handleException($e);
 		}
 
-		return $response;
+		return $this->assembleResponse($data, 200);
 	}
 
 }

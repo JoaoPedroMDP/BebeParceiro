@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Token\Actions;
 
+use App\Domains\Core\Action;
 use App\Domains\Token\CQRS\GenerateTokensCommand;
 use App\Domains\Token\Logic\TokenLogic;
 use Exception;
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
  * Class GenerateTokensAction
  * @package App\Domains\Token\Actions
  */
-class GenerateTokensAction
+class GenerateTokensAction extends Action
 {
 
 	/**
@@ -37,14 +38,11 @@ class GenerateTokensAction
 	public function handle(Request $request, string $amount): JsonResponse
 	{
 		try{
-			$response = response()->json(
-				$this->tokenLogic->generateTokens($request->user(), intval($amount))
-				,201
-			);
+			$data = $this->tokenLogic->generateTokens($request->user(), intval($amount));
 		}catch(Exception $e){
-			$response = response()->json("Não foi possível concluir a requisição", 400);
+			return $this->handleException($e);
 		}
 
-		return $response;
+		return $this->assembleResponse($data, 201);
 	}
 }

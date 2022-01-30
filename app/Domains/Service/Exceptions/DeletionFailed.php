@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Domains\Service\Exceptions;
 
-use Exception;
+use App\Domains\Core\BenignException;
 
 /**
  * Class DeletionFailed
  * @package App\Domains\Service\Exceptions
  */
-class DeletionFailed extends Exception
+class DeletionFailed extends BenignException
 {
 	public function __construct()
 	{
-		parent::__construct("Não foi possível remover este item", 500);
+		parent::__construct("Não foi possível remover este item", 400);
 	}
 }

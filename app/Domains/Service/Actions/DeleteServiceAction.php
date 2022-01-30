@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Service\Actions;
 
+use App\Domains\Core\Action;
 use App\Domains\Service\Logic\ServiceLogic;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
  * Class DeleteServicesAction
  * @package App\Domains\Service\Actions
  */
-class DeleteServiceAction
+class DeleteServiceAction extends Action
 {
 	/**
 	 * @var ServiceLogic
@@ -33,11 +34,10 @@ class DeleteServiceAction
 	{
 		try{
 			$this->serviceLogic->deleteService(intval($id));
-			$response = response()->json("Serviço deletado", 200);
 		}catch(Exception $e){
-			$response = response()->json($e->getMessage(), 500);
+			return $this->handleException($e);
 		}
 
-		return $response;
+		return $this->assembleResponse([], 200, 'Serviço deletado');
 	}
 }

@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Domains\Service\Exceptions;
 
-use Exception;
+use App\Domains\Core\BenignException;
 
 /**
  * Class ServiceNotFound
  * @package App\Domains\Service\Exceptions
  */
-class ServiceNotFound extends Exception
+class ServiceNotFound extends BenignException
 {
 	public function __construct()
 	{
-		parent::__construct("Serviço não encontrado");
+		parent::__construct("Serviço não encontrado", 404);
 	}
 }

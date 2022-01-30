@@ -5,14 +5,16 @@ namespace App\Domains\Benefited\Actions;
 
 use App\Domains\Benefited\CQRS\StoreBenefitedCommand;
 use App\Domains\Benefited\Logic\BenefitedLogic;
+use App\Domains\Core\Action;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
  * Class StoreBenefitedAction
  * @package App\Domains\Benefited\Actions
  */
-class StoreBenefitedAction
+class StoreBenefitedAction extends Action
 {
 
 	/**
@@ -31,17 +33,17 @@ class StoreBenefitedAction
 	/**
 	 * @param Request $request
 	 * @param string $token
-	 * @return void
+	 * @return JsonResponse
 	 */
-	public function handle(Request $request, string $token){
+	public function handle(Request $request, string $token): JsonResponse
+	{
 		try{
 			$params = array_merge(['token' => $token], $request->all());
-			$response = $this->benefitedLogic->storeBenefited(StoreBenefitedCommand::fromArray($params));
+			$data = $this->benefitedLogic->storeBenefited(StoreBenefitedCommand::fromArray($params));
 		}catch(Exception $e){
-			dd($e);
-			$response = response()->json($e->getMessage());
+			return $this->handleException($e);
 		}
 
-		return $response;
+		return $this->assembleResponse($data, 201);
 	}
 }

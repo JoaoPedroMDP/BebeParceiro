@@ -27,7 +27,10 @@ class TokenTest extends Tools
 	    $actor = $this->getActor("Secretario inicial");
 	    $response = $this->actingAs($actor)->get("/token/generate/$amount");
 	    $response->assertStatus(201);
-		$response->assertJsonCount($amount);
+		$this->assertCount(
+			5,
+			$response->json()['data']
+		);
     }
 
 	/**
@@ -37,7 +40,7 @@ class TokenTest extends Tools
 	 */
 	public function test_check_token(){
 		$actor = $this->getActor("Secretario inicial");
-		$token = $this->actingAs($actor)->get("/token/generate/1")->json()[0];
+		$token = $this->actingAs($actor)->get("/token/generate/1")->json()['data'][0];
 
 		$actor = $this->getActor("Beneficiada");
 		$response = $this->actingAs($actor)->get("/token/check/$token");
@@ -56,8 +59,8 @@ class TokenTest extends Tools
 
 		$actor = $this->getActor("Secretario inicial");
 		$response = $this->actingAs($actor)->get('token');
-		$availableTokensAmountBefore = count($response->json());
-		foreach($response->json() as $token){
+		$availableTokensAmountBefore = count($response->json()['data']);
+		foreach($response->json()['data'] as $token){
 			$token = Token::where("token",'=',$token['token'])->first();
 			$this->assertEquals(
 				0,
@@ -67,13 +70,13 @@ class TokenTest extends Tools
 
 		// Seto o primeiro como usado, caso exista pelo menos um não usado
 		if( count($response->json()) > 0 ){
-			$token = Token::where("token",'=',$response->json()[0]['token'])->where('used', '=', false)->first();
+			$token = Token::where("token",'=',$response->json()['data'][0]['token'])->where('used', '=', false)->first();
 			$token->used = true;
 			$token->save();
 		}
 
 		$response = $this->actingAs($actor)->get('token');
-		$availableTokensAmountAfter = count($response->json());
+		$availableTokensAmountAfter = count($response->json()['data']);
 		$this->assertEquals(1, $availableTokensAmountBefore - $availableTokensAmountAfter);
 	}
 }

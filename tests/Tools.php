@@ -88,7 +88,7 @@ class Tools extends TestCase
 	 * @return void
 	 */
 	private function checkIfServiceNumber(int $before, string $mode){
-		$serviceNumberAfter = count($this->get('/service')->json());
+		$serviceNumberAfter = count($this->get('/service')->json()['data']);
 		switch($mode){
 			case "decreased":
 				$number = -1;
@@ -161,6 +161,7 @@ class Tools extends TestCase
 	{
 		$actor = $this->getActor('Secretario inicial');
 		$response = $this->actingAs($actor)->get('token/generate/1');
-		return $response->json()[0];
+
+		return $response->json()['data'][0];
 	}
 }

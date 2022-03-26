@@ -5,7 +5,7 @@ namespace App\Domains\Core;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use function PHPUnit\Framework\isInstanceOf;
+
 
 /**
  * Class Action
@@ -39,7 +39,7 @@ class Action
 	{
 		return response()->json(
 			[
-				"message" => $message,
+				"res_message" => $message,
 				"code" => $code ?? $requestCode,
 				"data" => $data
 			],

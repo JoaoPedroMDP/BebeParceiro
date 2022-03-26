@@ -23,7 +23,7 @@ class Action
 			return $this->assembleResponse([], 400, $exception->getMessage(), $exception->getCode());
 		}
 
-		Log::error($exception->getMessage());
+		Log::error($exception->getMessage() . "\n" . $exception->getTraceAsString());
 		return $this->assembleResponse([], 500, "Erro interno. Contate a administradora do sistema");
 
 	}

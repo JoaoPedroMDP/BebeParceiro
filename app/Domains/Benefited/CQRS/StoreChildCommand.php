@@ -29,9 +29,9 @@ class StoreChildCommand extends CommandQuery
 		'birthday' => [
 			'rules' => ['required', 'string']
 		],
-		'measurements' => [
-			'rules' => ['required', 'array']
-		],
+//		'measurements' => [
+//			'rules' => ['required', 'array']
+//		],
 		'weight' => [
 			'rules' => ['required', 'float']
 		],
@@ -101,6 +101,7 @@ class StoreChildCommand extends CommandQuery
 	 */
 	public static function fromArray(array $data): StoreChildCommand
 	{
+//		dd($data);
 		$data['weight'] = floatval($data['weight']);
 		self::validate($data, self::FIELDS);
 		Assert::isInstanceOf($data['benefited'], Benefited::class, "Erro ao recuperar o beneficiário relacionado");
@@ -109,7 +110,7 @@ class StoreChildCommand extends CommandQuery
 			$data['surname'],
 			$data['sex'],
 			$data['birthday'],
-			$data['measurements'],
+			/*$data['measurements']*/[], //TODO: 1
 			$data['benefited'],
 			$data['weight']
 		);

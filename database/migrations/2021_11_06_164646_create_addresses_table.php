@@ -24,7 +24,6 @@ class CreateAddressesTable extends Migration
 			$table->string("number");
 			$table->string("complement");
 			$table->string("cep");
-			$table->string("reference");
 			$table->foreignId("user_id")->constrained("users");
             $table->timestamps();
         });

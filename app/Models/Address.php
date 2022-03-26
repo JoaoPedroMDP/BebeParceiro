@@ -19,7 +19,7 @@ class Address extends Model
 
 	protected $fillable = [
 		'street', 'number', 'cep',
-		'city', 'complement', 'reference'
+		'city', 'complement'
 	];
 
 	protected $with = ['user'];

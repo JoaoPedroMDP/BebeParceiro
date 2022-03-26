@@ -14,10 +14,13 @@ class StoreBenefitedCommand extends CommandQuery
 {
 	use Validates;
 
-	const FIELDS = [
+	const TOKEN = [
 		'token' => [
 			'rules' => ['required', 'string']
-		],
+		]
+	];
+
+	const PERSONAL_FIELDS = [
 		'childCount' => [
 			'rules' => ['required', 'integer']
 		],
@@ -35,7 +38,10 @@ class StoreBenefitedCommand extends CommandQuery
 		],
 		'hasDisablement' => [
 			'rules' => ['required', 'boolean']
-		],
+		]
+	];
+
+	const OTHER_FIELDS = [
 		'user' => [
 			'rules' => ['required', 'array']
 		],
@@ -45,7 +51,6 @@ class StoreBenefitedCommand extends CommandQuery
 		'child' => [
 			'rules' => ['required', 'array']
 		],
-
 		'pregnancy' => [
 			'rules' => ['nullable', 'array']
 		],
@@ -90,19 +95,22 @@ class StoreBenefitedCommand extends CommandQuery
 	 */
 	public static function fromArray(array $data): StoreBenefitedCommand
 	{
+		$user = self::separateUserData($data);
+		$isPregnant = !$data['personal']['childAlreadyBorn'];
 		self::formatBenefitedFields($data);
-		self::validate($data, self::FIELDS);
+		self::validate($data['personal'], self::PERSONAL_FIELDS);
+		self::validate($data, self::TOKEN);
 
 		return new self(
 			$data['token'],
-			$data['childCount'],
-			$data['birthday'],
-			array_key_exists('pregnancy', $data) ,
-			$data['maritalStatus'],
-            $data['familiarIncome'],
-			$data['socialBenefits'],
-			$data['hasDisablement'],
-			$data['user'],
+			$data['personal']['childCount'],
+			$data['personal']['birthday'],
+			$isPregnant,
+			$data['personal']['maritalStatus'],
+            $data['personal']['familiarIncome'],
+			$data['personal']['socialBenefits'],
+			$data['personal']['hasDisablement'],
+			$user,
 			$data['address'],
 			$data['child'],
 			$data['pregnancy'] ?? []
@@ -115,10 +123,25 @@ class StoreBenefitedCommand extends CommandQuery
 	 */
 	private static function formatBenefitedFields(array &$data)
 	{
-		$data['childCount'] = intval($data['childCount']);
-		$data['isPregnant'] = !($data['isPregnant'] == 'false'); // Boolval não funciona, essa porcaria
-		$data['familiarIncome'] = floatval($data['familiarIncome']);
-		$data['hasDisablement'] = !($data['hasDisablement'] == 'false');
+		$data['personal']['childCount'] = intval($data['personal']['childCount']);
+		$data['personal']['familiarIncome'] = floatval($data['personal']['familiarIncome']);
+		$data['personal']['hasDisablement'] = !($data['personal']['hasDisablement'] == 'false');
+	}
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	private static function separateUserData(array $data): array
+	{
+		return [
+			'name' => $data['personal']['name'],
+			'surname' => $data['personal']['surname'],
+			'email' => $data['personal']['email'],
+			'telephone' => $data['personal']['telephone'],
+			'password' => $data['personal']['password'],
+			'password_confirmation' => $data['personal']['passwordConfirmation'],
+			];
 	}
 
 	/**

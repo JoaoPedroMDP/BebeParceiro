@@ -32,9 +32,6 @@ class StoreAddressCommand extends CommandQuery
 		'complement' => [
 			'rules' => ['required', 'string']
 		],
-		'reference' => [
-			'rules' => ['required', 'string']
-		],
 		'user' => [
 			'rules' => ['required', 'user']
 		]
@@ -66,11 +63,6 @@ class StoreAddressCommand extends CommandQuery
 	public $complement;
 
 	/**
-	 * @var string
-	 */
-	public $reference;
-
-	/**
 	 * @var User
 	 */
 	public $user;
@@ -81,17 +73,15 @@ class StoreAddressCommand extends CommandQuery
 	 * @param int $cep
 	 * @param string $city
 	 * @param string $complement
-	 * @param string $reference
 	 * @param User $user
 	 */
-	public function __construct(string $street, string $number, int $cep, string $city, string $complement, string $reference, User $user)
+	public function __construct(string $street, string $number, int $cep, string $city, string $complement, User $user)
 	{
 		$this->street = $street;
 		$this->number = $number;
 		$this->cep = $cep;
 		$this->city = $city;
 		$this->complement = $complement;
-		$this->reference = $reference;
 		$this->user = $user;
 	}
 
@@ -103,7 +93,6 @@ class StoreAddressCommand extends CommandQuery
 	{
 		Assert::regex($data['cep'], '/\d{8}/');
 		Assert::maxLength($data['complement'], 20);
-		Assert::maxLength($data['reference'], 50);
 		self::formatAddressFields($data);
 
 		return new self(
@@ -112,7 +101,6 @@ class StoreAddressCommand extends CommandQuery
 			$data['cep'],
 			$data['city'],
 			$data['complement'],
-			$data['reference'],
 			$data['user']
 		);
 	}

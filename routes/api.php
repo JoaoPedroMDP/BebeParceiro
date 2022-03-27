@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Domains\Appointment\Actions\IndexAppointmentsAction;
+use App\Domains\Benefited\Actions\IndexNewBeneficiariesAction;
 use App\Domains\Benefited\Actions\StoreBenefitedAction;
 use App\Domains\Service\Actions\DeleteServiceAction;
 use App\Domains\Service\Actions\IndexServicesAction;
@@ -49,6 +50,10 @@ Route::middleware(['auth:sanctum'])->group(function() {
 		Route::middleware(['tokens'])->group(function () {
 			Route::get("token/generate/{amount}", [GenerateTokensAction::class, 'handle']);
 			Route::get("token", [IndexTokensAction::class, 'handle']);
+		});
+
+		Route::middleware(['editResponsePermission'])->group(function () {
+			Route::get("newEntries", [IndexNewBeneficiariesAction::class, 'handle']);
 		});
 	});
 });

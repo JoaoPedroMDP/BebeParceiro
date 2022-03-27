@@ -42,6 +42,7 @@ class AppointmentTest extends Tools
 	}
 
 	/**
+	 * TODO: Ver se nao está errado, visto que ele conta as saídas do json mas nao acessa a parte de dados
 	 * @throws Exception
 	 */
 	private function withCreatedAppointment(User $actor)

@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Domains\Benefited\Repository\BenefitedRepository;
 use Exception;
-use Tests\Helpers\TokenTestHelper;
 use Tests\Tools;
+use Webmozart\Assert\Assert;
 
 /**
  * Class BenefitedTest
@@ -49,6 +50,25 @@ class BenefitedTest extends Tools
 		$response = $this->post("/benefited/$token", $params);
 
 		$response->assertStatus(201);
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	public function test_list_new_entries()
+	{
+		$actor = $this->getActor("Beneficiada");
+		$pageNum = 1;
+		$response = $this->actingAs($actor)->get('/newEntries?page=' . $pageNum);
+		$response->assertUnauthorized();
+
+		$actor = $this->getActor("Validador");
+		$response = $this->actingAs($actor)->get('/newEntries?page=' . $pageNum);
+		$response->assertOk();
+		Assert::true(
+			count($response->json()['data']) <= BenefitedRepository::PER_PAGE,
+			"Retornou mais resultados do que o esperado"
+		);
 	}
 
 	/**

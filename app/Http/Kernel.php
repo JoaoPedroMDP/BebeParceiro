@@ -70,6 +70,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
 	    'volunteers' => \App\Http\Middleware\IsVolunteer::class,
-	    'tokens' => \App\Http\Middleware\CanHandleTokens::class
+	    'tokens' => \App\Http\Middleware\CanHandleTokens::class,
+	    'generalPermission' => \App\Http\Middleware\GeneralPermission::class,
+	    'editResponsePermission' => \App\Http\Middleware\EditResponsePermission::class
     ];
 }

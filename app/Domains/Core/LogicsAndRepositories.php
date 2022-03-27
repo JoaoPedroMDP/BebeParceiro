@@ -297,4 +297,21 @@ class LogicsAndRepositories
 
 		return $this->addressRepository;
 	}
+
+	/**
+	 * @var TableLogic
+	 */
+	public $tableLogic;
+
+	/**
+	 * @return TableLogic
+	 */
+	public function tableLogic(): TableLogic
+	{
+		if($this->tableLogic == null){
+			$this->tableLogic = new TableLogic();
+		}
+
+		return $this->tableLogic;
+	}
 }

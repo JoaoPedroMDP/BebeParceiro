@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Domains\Benefited\Logic;
 
 use App\Domains\Address\CQRS\StoreAddressCommand;
+use App\Domains\Benefited\CQRS\IndexNewBeneficiariesQuery;
 use App\Domains\Benefited\CQRS\StoreBenefitedCommand;
 use App\Domains\Benefited\CQRS\StoreChildCommand;
 use App\Domains\Benefited\CQRS\StorePregnancyCommand;
@@ -95,5 +96,20 @@ class BenefitedLogic extends LogicsAndRepositories
 		);
 
 		return $this->pregnancyRepository()->storePregnancy(StorePregnancyCommand::fromArray($params)->toArray());
+	}
+
+	/**
+	 * @param IndexNewBeneficiariesQuery $query
+	 * @return array
+	 */
+	public function indexNewBeneficiaries(IndexNewBeneficiariesQuery $query): array
+	{
+		$benefitedData = $this->benefitedRepository()->indexNewBeneficiaries($query->page);
+		$inArray = [];
+		foreach($benefitedData as $item){
+			$inArray[] = $item->toArray();
+		}
+
+		return $this->tableLogic()->generateTable($inArray, $query->page, $benefitedData->total(), $benefitedData->lastPage());
 	}
 }

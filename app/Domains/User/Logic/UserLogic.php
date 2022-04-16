@@ -7,7 +7,7 @@ use App\Domains\Core\LogicsAndRepositories;
 use App\Domains\User\CQRS\AuthenticateUserCommand;
 use App\Domains\User\CQRS\StoreUserCommand;
 use App\Domains\User\Exceptions\InvalidCredentials;
-use App\Domains\User\Exceptions\LoginAlreadyTaken;
+use App\Domains\User\Exceptions\UsernameAlreadyTaken;
 use App\Domains\User\Exceptions\UserNotFound;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -57,7 +57,7 @@ class UserLogic extends LogicsAndRepositories
 	/**
 	 * @param StoreUserCommand $command
 	 * @return User
-	 * @throws LoginAlreadyTaken
+	 * @throws UsernameAlreadyTaken
 	 */
 	public function storeUser(StoreUserCommand $command): User
 	{
@@ -71,13 +71,13 @@ class UserLogic extends LogicsAndRepositories
 	}
 
 	/**
-	 * @throws LoginAlreadyTaken
+	 * @throws UsernameAlreadyTaken
 	 */
 	private function checkIfLoginIsUnique(string $login)
 	{
 		$potentialDuplicate = $this->userRepository()->getFirstUserWhere('login', $login);
 		if(!is_null($potentialDuplicate)){
-			throw new LoginAlreadyTaken();
+			throw new UsernameAlreadyTaken();
 		}
 	}
 }

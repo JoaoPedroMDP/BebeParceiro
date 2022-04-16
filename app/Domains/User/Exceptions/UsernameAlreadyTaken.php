@@ -10,7 +10,7 @@ use Exception;
  * Class LoginAlreadyTaken
  * @package App\Domains\User\Exceptions
  */
-class LoginAlreadyTaken extends BenignException
+class UsernameAlreadyTaken extends BenignException
 {
 
 	public function __construct()

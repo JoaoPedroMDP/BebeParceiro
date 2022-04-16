@@ -20,9 +20,6 @@ class StoreChildCommand extends CommandQuery
 		'name' => [
 			'rules' => ['required', 'string']
 		],
-		'surname' => [
-			'rules' => ['required', 'string']
-		],
 		'sex' => [
 			'rules' => ['required', 'string']
 		],
@@ -33,7 +30,7 @@ class StoreChildCommand extends CommandQuery
 //			'rules' => ['required', 'array']
 //		],
 		'weight' => [
-			'rules' => ['required', 'float']
+			'rules' => ['nullable', 'float']
 		],
 		'benefited' => [
 			'rules' => ['required']
@@ -44,11 +41,6 @@ class StoreChildCommand extends CommandQuery
 	 * @var string
 	 */
 	public $name;
-
-	/**
-	 * @var string
-	 */
-	public $surname;
 
 	/**
 	 * @var string
@@ -71,23 +63,21 @@ class StoreChildCommand extends CommandQuery
 	public $benefited;
 
 	/**
-	 * @var float
+	 * @var float|null
 	 */
 	public $weight;
 
 	/**
 	 * @param string $name
-	 * @param string $surname
 	 * @param string $sex
 	 * @param string $birthday
 	 * @param array $measurements
 	 * @param Benefited $benefited
-	 * @param float $weight
+	 * @param float|null $weight
 	 */
-	public function __construct(string $name, string $surname, string $sex, string $birthday, array $measurements, Benefited $benefited, float $weight)
+	public function __construct(string $name, string $sex, string $birthday, array $measurements, Benefited $benefited, ?float $weight)
 	{
 		$this->name = $name;
-		$this->surname = $surname;
 		$this->sex = $sex;
 		$this->birthday = $birthday;
 		$this->measurements = $measurements;
@@ -101,18 +91,28 @@ class StoreChildCommand extends CommandQuery
 	 */
 	public static function fromArray(array $data): StoreChildCommand
 	{
-//		dd($data);
-		$data['weight'] = floatval($data['weight']);
+		self::formatChildFields($data);
 		self::validate($data, self::FIELDS);
 		Assert::isInstanceOf($data['benefited'], Benefited::class, "Erro ao recuperar o beneficiário relacionado");
+
 		return new self(
 			$data['name'],
-			$data['surname'],
 			$data['sex'],
 			$data['birthday'],
 			/*$data['measurements']*/[], //TODO: 1
 			$data['benefited'],
 			$data['weight']
 		);
+	}
+
+	/**
+	 * @param array $data
+	 * @return void
+	 */
+	public static function formatChildFields(array &$data)
+	{
+		$data['name'] = $data['name'] == "" ? "Unknown" : $data['name'];
+		$data['sex'] = $data['sex'] == "" ? "Unknown" : $data['sex'];
+		$data['birthday'] = $data['birthday'] == "" ? "Unknown" : $data['birthday'];
 	}
 }

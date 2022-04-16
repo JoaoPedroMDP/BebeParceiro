@@ -38,6 +38,15 @@ trait Validates
 
 	/**
 	 * @param array $data
+	 * @param string $key
+	 * @return void
+	 */
+	public function keyIsNotNull(array $data, string $key){
+		Assert::notNull($data[$key], "Campo $key não pode ser vazio");
+	}
+
+	/**
+	 * @param array $data
 	 * @param string $field
 	 * @return void
 	 */
@@ -125,6 +134,7 @@ trait Validates
 	 */
 	public static function validateRequired(array $data, string $field){
 		self::keyExists($data, $field);
+		self::keyIsNotNull($data, $field);
 	}
 
 	/**

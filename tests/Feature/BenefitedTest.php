@@ -102,7 +102,6 @@ class BenefitedTest extends Tools
 			'child' => [
 				'sex' => 'male',
 				'name' => 'criança',
-				'surname' => 'da silva',
 				'birthday' => '13/03/2022',
 				'weight' => '2',
 				'measurements' => [

@@ -5,6 +5,7 @@ namespace App\Domains\Core;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Webmozart\Assert\InvalidArgumentException;
 
 
 /**
@@ -21,6 +22,8 @@ class Action
 	{
 		if( $exception instanceof BenignException){
 			return $this->assembleResponse([], 400, $exception->getMessage(), $exception->getCode());
+		}else if($exception instanceof InvalidArgumentException){
+			return $this->assembleResponse([], 400, $exception->getMessage(), 400);
 		}
 
 		Log::error($exception->getMessage() . "\n" . $exception->getTraceAsString());

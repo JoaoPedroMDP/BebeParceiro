@@ -13,7 +13,7 @@ use App\Domains\Token\CQRS\CheckTokenQuery;
 use App\Domains\Token\Exceptions\TokenAlreadyUsed;
 use App\Domains\Token\Exceptions\TokenNotFound;
 use App\Domains\User\CQRS\StoreUserCommand;
-use App\Domains\User\Exceptions\LoginAlreadyTaken;
+use App\Domains\User\Exceptions\UsernameAlreadyTaken;
 use App\Models\Benefited;
 use App\Models\Child;
 use App\Models\Pregnancy;
@@ -31,7 +31,7 @@ class BenefitedLogic extends LogicsAndRepositories
 	 * @return Benefited
 	 * @throws TokenAlreadyUsed
 	 * @throws TokenNotFound
-	 * @throws LoginAlreadyTaken
+	 * @throws UsernameAlreadyTaken
 	 */
 	public function storeBenefited(StoreBenefitedCommand $command): Benefited
 	{

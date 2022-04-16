@@ -22,7 +22,7 @@ class CreateChildrenTable extends Migration
 			$table->string("name");
 			$table->string("sex");
 			$table->string("birthday");
-			$table->float("weight");
+			$table->float("weight")->nullable();
 			$table->foreignId("benefited_id")->constrained("beneficiaries");
             $table->timestamps();
         });

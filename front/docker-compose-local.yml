@@ -1,0 +1,10 @@
+services:
+  bebeparceiro-front:
+    build:
+      context: ${PWD}/bebeparceiro
+      dockerfile: ${PWD}/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ${PWD}/bebeparceiro:/app
+      - /app/node_modules

@@ -11,6 +11,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        lightGreen: "#FFEFCE",
+        darkGreen: "#665635",
         rightGreen: "#4ADE80",
         wrongRed: "#DC2626",
         warningYellow: "#FBBF24",

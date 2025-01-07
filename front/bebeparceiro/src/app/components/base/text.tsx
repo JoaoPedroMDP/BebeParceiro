@@ -1,33 +1,27 @@
 'use client';
-import { useEffect, useState } from "react";
-import ValidationResult from "../types/validationResult";
-import { error } from "console";
+import { useState } from "react";
+import ValidationResult from "../../types/validationResult";
+import {type MaskitoOptions} from '@maskito/core';
+import {useMaskito} from '@maskito/react';
 
-interface TextInputProps {
+interface TextProps {
     label: string;
     value: string;
-    onChange: (value: string) => void;
+    changeHandler: (value: string) => void;
     validator?: (value: string) => ValidationResult;
     required?: boolean;
+    mask?: MaskitoOptions;
 }
 
-export default function TextInput(props: Readonly<TextInputProps>) {
+export default function Text(props: Readonly<TextProps>) {
     const required = props.required !== undefined;
-    const [fieldAnnotation, setFieldAnnotation] = useState<string>("");
     const [isValid, setIsValid] = useState<boolean|undefined>(undefined);
     const [errorMessage, setErrorMessage] = useState<string|undefined>(undefined);
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
-
-    useEffect(() => {
-        if(isValid) {
-            setFieldAnnotation("✓");
-        }else {
-            setFieldAnnotation("✗");
-        }
-    }, [isValid]);
+    const inputRef = useMaskito({options: props.mask});
 
     function changeContent(newContent: string) {
-        props.onChange(newContent);
+        props.changeHandler(newContent);
     }
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -71,7 +65,7 @@ export default function TextInput(props: Readonly<TextInputProps>) {
     let requiredMark = required ? "after:content-['*'] after:font-bold after:text-wrongRed" : '';
 
     return (
-        <div className="m-2 relative w-[100%]">
+        <div className="m-3 relative w-[100%]">
             <label className={`absolute px-1 left-2 -top-2 leading-none touch-pan-down bg-white ${requiredMark}`}>{props.label}</label>
             <div className="flex flex-col">
                 <span 
@@ -88,12 +82,17 @@ export default function TextInput(props: Readonly<TextInputProps>) {
                     className={`absolute -left-6 top-2 ${validityMarkStyle}`}
                 >{validityMark}</span>
                 <input 
+                    ref={inputRef}
                     className={`p-2 border-solid border-[3px] rounded-lg ${borderColor} focus:outline-dashed focus:outline-2 focus:outline-blue-500`} 
                     type="text" 
                     value={props.value} 
-                    onChange={handleChange} />
+                    onInput={handleChange}
+                    onChange={(e) => {console.log(e)}}
+                    />
             </div>
 
         </div>
     );
 }
+
+export type { TextProps };

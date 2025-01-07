@@ -36,13 +36,13 @@ export default function Text(props: Readonly<TextProps>) {
         changeContent(value);
     }
 
-    function handleMarkStart(){
+    function showTip(){
         if(errorMessage){
             setShowErrorMessage(true);
         }
     }
 
-    function handleMarkEnd(){
+    function hideTip(){
         setShowErrorMessage(false);
     }
 
@@ -66,7 +66,7 @@ export default function Text(props: Readonly<TextProps>) {
 
     return (
         <div className="m-3 relative w-[100%]">
-            <label className={`absolute px-1 left-2 -top-2 leading-none touch-pan-down bg-white ${requiredMark}`}>{props.label}</label>
+            <span className={`absolute px-1 left-2 -top-2 leading-none touch-pan-down bg-white ${requiredMark}`}>{props.label}</span>
             <div className="flex flex-col">
                 <span 
                     hidden={!showErrorMessage || errorMessage === undefined} 
@@ -74,16 +74,15 @@ export default function Text(props: Readonly<TextProps>) {
                         max-w-[200px] break-words bg-warningYellow"
                 >{isValid ? '' : errorMessage}</span>
                 <span 
-                    onTouchStart={handleMarkStart} 
-                    onTouchEnd={handleMarkEnd} 
-                    onTouchCancel={handleMarkEnd}
-                    onMouseEnter={handleMarkStart}
-                    onMouseLeave={handleMarkEnd}
+                    onTouchStart={showTip} 
+                    onMouseEnter={showTip}
+                    onTouchEnd={hideTip}
+                    onMouseLeave={hideTip}
                     className={`absolute -left-6 top-2 ${validityMarkStyle}`}
                 >{validityMark}</span>
                 <input 
                     ref={inputRef}
-                    className={`p-2 border-solid border-[3px] rounded-lg ${borderColor} focus:outline-dashed focus:outline-2 focus:outline-blue-500`} 
+                    className={`p-2 border-solid border-2 rounded-lg ${borderColor} focus:outline-dashed focus:outline-2 focus:outline-blue-500`} 
                     type="text" 
                     value={props.value} 
                     onInput={handleChange}

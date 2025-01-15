@@ -23,12 +23,6 @@ export default function Select(props: Readonly<SelectProps>) {
         props.changeHandler(newContent);
     }
 
-    function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        const value = event.target.value;
-
-        changeContent(value);
-    }
-
     // Defino o asterisco de campo obrigatório.
     let requiredMark = required ? "after:content-['*'] after:font-bold after:text-wrongRed" : '';
 

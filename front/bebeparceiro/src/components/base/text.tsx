@@ -1,8 +1,8 @@
 'use client';
 import { useState } from "react";
-import ValidationResult from "../../types/validationResult";
 import {type MaskitoOptions} from '@maskito/core';
 import {useMaskito} from '@maskito/react';
+import { ValidationResult } from "@/app/types";
 
 interface TextProps {
     label: string;
@@ -82,7 +82,7 @@ export default function Text(props: Readonly<TextProps>) {
                 >{validityMark}</span>
                 <input 
                     ref={inputRef}
-                    className={`p-2 border-solid border-2 rounded-lg ${borderColor} focus:outline-dashed focus:outline-2 focus:outline-blue-500`} 
+                    className={`p-2 border-solid border-2 rounded-lg ${borderColor} transition-all duration-100 focus:outline-dashed focus:outline-2 focus:outline-blue-500`} 
                     type="text" 
                     value={props.value} 
                     onInput={handleChange}

@@ -1,8 +1,7 @@
-import { phoneValidator } from "../validations/phone";
 import Text, { TextProps } from "./base/text";
 import { maskitoChangeEventPlugin, MaskitoOptions } from "@maskito/core";
 import {maskitoWithPlaceholder} from '@maskito/kit';
-
+import { phoneValidator } from "./validations/phone";
 
 const phoneMask: MaskitoOptions = {
     ...maskitoWithPlaceholder('(__) _____-____'),

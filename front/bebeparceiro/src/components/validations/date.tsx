@@ -1,6 +1,6 @@
 'use client';
 import { z } from 'zod';
-import ValidationResult from '../types/validationResult';
+import ValidationResult from '../types';
 
 const dateValidatorSchema = z
     .string({ required_error: 'Data é obrigatória', })

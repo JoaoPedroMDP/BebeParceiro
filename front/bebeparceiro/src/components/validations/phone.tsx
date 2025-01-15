@@ -1,6 +1,6 @@
 'use client';
 import { z } from 'zod';
-import ValidationResult from '../types/validationResult';
+import ValidationResult from '../types';
 
 const phoneValidatorSchema = z
     .string({ required_error: 'Celular é obrigatório', })

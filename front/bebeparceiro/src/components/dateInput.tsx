@@ -1,7 +1,7 @@
 import { maskitoWithPlaceholder } from "@maskito/kit";
-import { dateValidator } from "../validations/date";
 import Text, { TextProps } from "./base/text";
 import { maskitoChangeEventPlugin, MaskitoOptions } from "@maskito/core";
+import { dateValidator } from "./validations/date";
 
 const dateMask: MaskitoOptions = {
     ...maskitoWithPlaceholder('__/__/____'),

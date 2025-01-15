@@ -11,6 +11,7 @@ interface TextProps {
     validator?: (value: string) => ValidationResult;
     required?: boolean;
     mask?: MaskitoOptions;
+    placeholder?: string;
 }
 
 export default function Text(props: Readonly<TextProps>) {
@@ -65,7 +66,7 @@ export default function Text(props: Readonly<TextProps>) {
     let requiredMark = required ? "after:content-['*'] after:font-bold after:text-wrongRed" : '';
 
     return (
-        <div className="m-3 relative w-[100%]">
+        <div className="m-3 relative w-full">
             <span className={`absolute px-1 left-2 -top-2 leading-none touch-pan-down bg-white ${requiredMark}`}>{props.label}</span>
             <div className="flex flex-col">
                 <span 
@@ -87,6 +88,7 @@ export default function Text(props: Readonly<TextProps>) {
                     value={props.value} 
                     onInput={handleChange}
                     onChange={(e) => {console.log(e)}}
+                    placeholder={props.placeholder}
                     />
             </div>
 

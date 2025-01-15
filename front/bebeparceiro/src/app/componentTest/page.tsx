@@ -1,11 +1,11 @@
 'use client';
 import { useState } from "react";
-import DateInput from "../../components/dateInput";
-import PhoneInput from "../../components/phoneInput";
-import Select from "../../components/base/select";
-import Button from "../../components/base/button";
+import DateInput from "../../components/inputs/dateInput";
+import PhoneInput from "../../components/inputs/phoneInput";
+import Select from "../../components/inputs/base/select";
+import Button from "../../components/inputs/base/button";
 import { SelectOption } from "../types";
-import Check from "@/components/base/check";
+import Check from "@/components/inputs/base/check";
 
 export default function Login() {
     const [text, setText] = useState<string>("");
